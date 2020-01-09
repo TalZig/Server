@@ -7,7 +7,7 @@
 #include <thread>
 #include "server_side.h"
 #include <string.h>
-static bool GlobalShouldStop = false;
+
 template<typename Problem, typename Solution>
 void start(int port, ClientHandler<Problem, Solution> *c) {
   int s = socket(AF_INET, SOCK_STREAM, 0);
@@ -17,7 +17,6 @@ void start(int port, ClientHandler<Problem, Solution> *c) {
   serv.sin_family = AF_INET;
   bool *isTimeOut = new bool;
   *isTimeOut = false;
-  char buffer[2900];
   timeval timeout;
   timeout.tv_sec = 50;
   timeout.tv_usec = 0;
@@ -25,7 +24,7 @@ void start(int port, ClientHandler<Problem, Solution> *c) {
   bind(s, (sockaddr *) &serv, sizeof(serv));
   setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
 
-  while (!GlobalShouldStop) {
+  while (!server_side::GlobalShouldStop) {
     try {
       int new_sock;
       listen(s, 20000);
@@ -44,6 +43,7 @@ void start(int port, ClientHandler<Problem, Solution> *c) {
           }
         }
       }
+      c->handleClient(new_sock);
 
 /*        if (new_sock >= 0) {
           thread *t = new thread(serial, clientHandler, new_sock, isTimeOut);
@@ -51,25 +51,6 @@ void start(int port, ClientHandler<Problem, Solution> *c) {
           delete t;
           *isTimeOut = true;
         }*/
-      while (!GlobalShouldStop) {
-        read(new_sock, buffer, 1024);
-        string prob(buffer);
-        for (int i = 0; i < sizeof(buffer); i++) {
-          buffer[i] = '\0';
-        }
-        if (prob.substr(0, 3) == "end") {
-          //GlobalShouldStop = true;
-          close(new_sock);
-          break;
-        }
-        if (prob.size() > 0) {
-          auto *answer = new string;
-          c->handleClient(prob, answer);
-          //write(new_sock, answer.c_str(), answer.size());
-          send(new_sock, (*answer).c_str(), (*answer).size(), 0);
-          delete answer;
-        }
-      }
     } catch (...) {
       cout << "connection with client stopped" << endl;
     }
@@ -82,12 +63,12 @@ class MySerialServer : server_side::Server<Problem, Solution> {
   bool shouldStop = false;
  public:
   void open(int port, ClientHandler<Problem, Solution> *c) override {
-    GlobalShouldStop = false;
+    server_side::GlobalShouldStop = false;
     thread thr(start<Problem, Solution>, port, c);
     thr.join();
   }
   void stop() override {
-    GlobalShouldStop = true;
+    server_side::GlobalShouldStop = true;
     if (this->thr1.joinable()) {
       this->thr1.join();
     }

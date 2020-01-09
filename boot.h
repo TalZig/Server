@@ -12,12 +12,14 @@
 
 namespace boot {
   class Main {
-    int main(int argc, char** argv) {
+   public:
+    Main() {}
+    int main1(int argc, char** argv) {
       auto cm = new FileCacheManager<string, string>();
       auto *solver = new StringReverserSolver();
       auto *c = new MyTestClientHandler<string, string>(cm, solver);
       MySerialServer<string,string> s;
-      s.open(atoi(argv[0]), c);
+      s.open(atoi(argv[1]), c);
     }
   };
 };

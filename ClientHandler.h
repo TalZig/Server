@@ -14,7 +14,7 @@ template <typename Problem,typename Solution>
 class ClientHandler {
 
  public:
-  virtual void handleClient(Problem prob,Solution* ans) = 0;
+  virtual void handleClient(int socket) = 0;
   virtual ~ClientHandler(){}
 };
 

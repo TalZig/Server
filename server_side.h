@@ -11,6 +11,8 @@
 #include "ClientHandler.h"
 using namespace std;
 namespace server_side {
+static bool GlobalShouldStop = false;
+
 template<typename Problem,typename Solution>
 class Server {
  public:
