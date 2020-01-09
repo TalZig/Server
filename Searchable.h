@@ -5,6 +5,8 @@
 #ifndef MILESTONE2__SEARCHABLE_H_
 #define MILESTONE2__SEARCHABLE_H_
 #include "State.h"
+#include "list"
+using namespace std;
 template <typename T>
 class Searchable {
   State<T> initialState;
@@ -17,6 +19,7 @@ class Searchable {
   State<T> getGoalState(){
     return goalState;
   }
+  virtual list<State<T>> getSuccessors(State<T>) = 0;
 };
 
 #endif //MILESTONE2__SEARCHABLE_H_

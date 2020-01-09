@@ -9,26 +9,19 @@
 #include "list"
 #include "unordered_map"
 #include "hash_set"
+#include "set"
 using namespace std;
 template<typename T>
 class Searcher : public iSearcher<T> {
  protected:
   list<State<T>> openList;
-  hash<State<T>> closedList;
+  set<State<T>> closedSet;
  public:
-  void addToOpenList(T newVal) {
-    openList.push_back(newVal);
+  const set<State<T>> &GetClosedList() const {
+    return closedSet;
   }
+ public:
 
-  void addToClosedList(T newVal) {
-    closedList.push_back(newVal);
-  }
-
-  State<T> popOpenList(){
-    State<T> tempState = openList.front();
-    openList.pop_front();
-    return tempState;
-  }
 };
 
 #endif //MILESTONE2__SEARCHER_H_
