@@ -15,7 +15,6 @@ class AStar : public iSearcher<T> {
     set<State<T>*> open;
 
     open.insert(search_able.getInitialState());
-
   }
   double hCost(State<T> state1,State<T> goal){
 
