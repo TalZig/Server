@@ -40,12 +40,7 @@ class MyClientHandler : public ClientHandler<Problem, Solution>{
 
 //    if (prob.size() > 0) {
 //      string ans;
-//      if (this->cm->isCacheHaveSol(prob)) {
-//        ans = this->cm->get(prob);
-//      } else {
-//        ans = this->solver->solve(prob);
-//        this->cm->insert(prob, ans);
-//      }
+
 //      //write(new_sock, answer.c_str(), answer.size());
 //      send(socket, ans.c_str(), ans.size(), 0);
 //    }
@@ -54,6 +49,12 @@ class MyClientHandler : public ClientHandler<Problem, Solution>{
     Matrix<pair<int, int>*>* matrix = new Matrix<T>(lines);
 
 
+    if (this->cm->isCacheHaveSol(prob)) {
+      ans = this->cm->get(prob);
+    } else {
+      ans = this->solver->solve(prob);
+      this->cm->insert(prob, ans);
+    }
 
     close(socket);
   }
