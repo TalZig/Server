@@ -57,11 +57,21 @@ class Matrix : public Searchable<pair<int,int>> {
   }
 
   vector<double> createValuesVector (string line) {
+    vector<double> values;
+    double val;
     line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
     auto find = line.find_first_of(',');
     while (find != string::npos) {
-
+      string temp = line;
+      temp.substr(0, find-1);
+      line.erase(0, find);
+      val = stod(temp);
+      values.push_back(val);
     }
+    //push last value
+    val = stod(line);
+    values.push_back(val);
+    return values;
   }
 };
 

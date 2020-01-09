@@ -9,6 +9,7 @@
 #include "FileCacheManager.h"
 #include "server_side.h"
 #include "State.h"
+#include "Matrix.h"
 
 template <typename Problem,typename Solution, typename T>
 class MyClientHandler : public ClientHandler<Problem, Solution>{
@@ -50,7 +51,9 @@ class MyClientHandler : public ClientHandler<Problem, Solution>{
 //    }
 
     //create matrix
-    Matrix matrix
+    Matrix<pair<int, int>*>* matrix = new Matrix<T>(lines);
+
+
 
     close(socket);
   }
