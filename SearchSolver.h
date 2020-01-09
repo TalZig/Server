@@ -9,15 +9,16 @@
 #include "list"
 #include "unordered_map"
 #include "set"
+#include "Solver.h"
 using namespace std;
-template<typename T>
-class SearchSolver : public iSearcher<T> {
+template<typename Problem,typename Solution,typename T>
+class SearchSolver : public Solver<Problem,Solution> {
  protected:
-  list<State<T>> openList;
-  set<State<T>> closedSet;
+  iSearcher<T> searcher_;
  public:
-  const set<State<T>> &GetClosedList() const {
-    return closedSet;
+
+  Solution solve(Problem problem) override {
+    return nullptr;
   }
  public:
 
