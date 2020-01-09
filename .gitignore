@@ -1,0 +1,4 @@
+#project exclude paths.
+/cmake-build-deubg/
+# Project exclude paths
+/cmake-build-debug/
