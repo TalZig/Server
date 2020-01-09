@@ -9,14 +9,14 @@
 using namespace std;
 template <typename T>
 class Searchable {
-  State<T> initialState;
-  State<T> goalState;
+  State<T>* initialState;
+  State<T>* goalState;
  public:
-  State<T> getInitialState () {
+  State<T>* getInitialState () {
     return initialState;
   }
 
-  State<T> getGoalState(){
+  State<T>* getGoalState(){
     return goalState;
   }
   virtual list<State<T>> getSuccessors(State<T>) = 0;

@@ -7,6 +7,7 @@
 #include "Searchable.h"
 template <typename T>
 class iSearcher {
+  int numberOfNodesEvaluated;
   virtual State<T> search(Searchable<T> search_able) = 0;
 
 };

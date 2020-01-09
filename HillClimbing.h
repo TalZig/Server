@@ -6,7 +6,8 @@
 #define MILESTONE2__HILLCLIMBING_H_
 
 #include "SearchSolver.h"
-class HillClimbing : public SearchSolver{
+template<typename T>
+class HillClimbing : public iSearcher<T>{
 
 };
 
