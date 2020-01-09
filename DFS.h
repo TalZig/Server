@@ -4,8 +4,8 @@
 
 #ifndef MILESTONE2__DFS_H_
 #define MILESTONE2__DFS_H_
-#include "Searcher.h"
-class DFS : public Searcher{
+#include "SearchSolver.h"
+class DFS : public SearchSolver{
 
 };
 

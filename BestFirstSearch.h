@@ -4,11 +4,11 @@
 
 #ifndef MILESTONE2__BESTFIRSTSEARCH_H_
 #define MILESTONE2__BESTFIRSTSEARCH_H_
-#include "Searcher.h"
+#include "SearchSolver.h"
 #include "queue"
 #include "stack"
 template<typename T>
-class BestFirstSearch : public Searcher<T> {
+class BestFirstSearch : public SearchSolver<T> {
   priority_queue<State<T>> openQue;
   set<State<T>> closedSet;
   set<State<T>> openSet;

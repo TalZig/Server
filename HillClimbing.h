@@ -5,8 +5,8 @@
 #ifndef MILESTONE2__HILLCLIMBING_H_
 #define MILESTONE2__HILLCLIMBING_H_
 
-#include "Searcher.h"
-class HillClimbing : public Searcher{
+#include "SearchSolver.h"
+class HillClimbing : public SearchSolver{
 
 };
 

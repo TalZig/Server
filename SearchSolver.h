@@ -8,11 +8,10 @@
 #include "iSearcher.h"
 #include "list"
 #include "unordered_map"
-#include "hash_set"
 #include "set"
 using namespace std;
 template<typename T>
-class Searcher : public iSearcher<T> {
+class SearchSolver : public iSearcher<T> {
  protected:
   list<State<T>> openList;
   set<State<T>> closedSet;

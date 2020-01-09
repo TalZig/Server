@@ -5,9 +5,9 @@
 #ifndef MILESTONE2__ASTAR_H_
 #define MILESTONE2__ASTAR_H_
 
-#include "Searcher.h"
+#include "SearchSolver.h"
 template <typename T>
-class AStar : public Searcher<T> {
+class AStar : public SearchSolver<T> {
   State<T> search(Searchable<T> search_able)  {
 
   }
