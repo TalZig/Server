@@ -10,6 +10,7 @@
 using namespace std;
 template <typename T>
 class Searchable {
+ protected:
   State<T> *initialState;
   State<T> *goalState;
  public:

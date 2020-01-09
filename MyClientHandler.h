@@ -49,12 +49,8 @@ class MyClientHandler : public ClientHandler<Problem, Solution>{
 //      send(socket, ans.c_str(), ans.size(), 0);
 //    }
 
-    State<T> goal = lines.back();
-    lines.pop_back();
-    State<T> initial = lines.back();
-    lines.pop_back();
-
     //create matrix
+    Matrix matrix
 
     close(socket);
   }
