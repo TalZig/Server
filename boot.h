@@ -7,19 +7,18 @@
 #include <iostream>
 #include "server_side.h"
 #include "MySerialServer.h"
-#include "MyTestClientHandler.h"
 #include "MyClientHandler.h"
 #include "StringReverserSolver.h"
-#include "Matrix.h"
 
 namespace boot {
+template <typename Problem,typename Solution, typename T>
   class Main {
    public:
     Main() {}
     int main1(int argc, char** argv) {
       auto cm = new FileCacheManager<string, string>();
       auto *solver = new StringReverserSolver();
-      auto *c = new MyClientHandler<Matrix<pair<int,int>>, State<pair<int,int>>, pair<int, int>>(cm, solver);
+      MyClientHandler<Matrix<pair<int,int>>, State<pair<int,int>>, pair<int,int>> *c = new MyClientHandler<Problem, Solution, T>(cm, solver);
       MySerialServer<string,string> s;
       s.open(atoi(argv[1]), c);
     }

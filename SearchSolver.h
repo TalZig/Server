@@ -20,7 +20,7 @@ class SearchSolver : public Solver<Problem,Solution> {
 
   SearchSolver(BestFirstSearch<string> *searcher) : searcher_(searcher) {}
   Solution solve(Problem problem) override {
-    return nullptr;
+    return this->searcher_->search(problem);
   }
  public:
 

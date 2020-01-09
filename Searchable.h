@@ -21,7 +21,12 @@ class Searchable {
   State<T>* getGoalState(){
     return goalState;
   }
+
   virtual vector<State<T>*> getSuccessors(State<T>*) = 0;
+
+  virtual string traceBack(State<T> *init, State<T> *goal) {
+    return "";
+  }
 };
 
 #endif //MILESTONE2__SEARCHABLE_H_

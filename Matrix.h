@@ -73,6 +73,36 @@ class Matrix : public Searchable<pair<int,int>> {
     values.push_back(val);
     return values;
   }
+
+  string traceBack(State<pair<int,int>> *init, State<pair<int,int>> *goal) override {
+    string ans = "";
+    State<pair<int, int>>* curr = goal;
+    State<pair<int, int>>* previous = goal->prev;
+    while (!previous->equals(*init)) {
+      if (previous->state.first > curr->state.first) {
+        ans += "Right,";
+      } else if (previous->state.first < curr->state.first) {
+        ans += "Left,";
+      } else if (previous->state.second > curr->state.second) {
+        ans += "Down,";
+      } else {
+        ans += "Up,";
+      }
+      previous = previous->prev;
+      curr = curr->prev;
+    }
+    //check last move
+    if (previous->state.first > curr->state.first) {
+      ans += "Right\n";
+    } else if (previous->state.first < curr->state.first) {
+      ans += "Left\n";
+    } else if (previous->state.second > curr->state.second) {
+      ans += "Down\n";
+    } else {
+      ans += "Up\n";
+    }
+    return ans;
+  }
 };
 
 #endif //SERVER__MATRIX_H_

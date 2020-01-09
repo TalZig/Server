@@ -39,6 +39,7 @@ class BFS : public iSearcher<T> {
         }
       }
     }
+    return search_able.traceBack(search_able.getInitialState(), search_able.getGoalState());
   }
 };
 
