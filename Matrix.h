@@ -9,10 +9,12 @@
 #include <string>
 #include <algorithm>
 #include "Searchable.h"
-template <typename T>
+using namespace std;
+//template <typename T>
 class Matrix : public Searchable<pair<int,int>> {
  vector<vector<State<pair<int, int>>*>> mat;
  public:
+
   Matrix(vector<string> lines) {
     // save last 2 lines in order to create
     string goalLine = lines.back();
@@ -23,13 +25,13 @@ class Matrix : public Searchable<pair<int,int>> {
     //create vector of vector
 
     for (int i = 0; i < lines.size(); ++i) {
-      vector<State<pair<int,int>>> line;
+      vector<State<pair<int,int>>*> line;
       vector<double> values = createValuesVector(lines[i]);
       for (int j = 0; j < values.size(); ++j) {
         pair<int, int> pair1;
         pair1.first = i;
         pair1.second = j;
-        line.push_back(new State<T>(pair1, values[j]));
+        line.push_back(new State<pair<int, int>>(pair1, values[j]));
       }
       mat.push_back(line);
     }
@@ -45,6 +47,8 @@ class Matrix : public Searchable<pair<int,int>> {
     init1.second = y;
     this->initialState = new State<T>(init1, mat[x][y]);
 
+    //this->initialState = new State<pair<int,int>>(init1, mat[x][y]);
+
     goalLine.erase(std::remove_if(goalLine.begin(), goalLine.end(), ::isspace), goalLine.end());
     temp = goalLine;
     find = goalLine.find_first_of(',');
@@ -53,7 +57,37 @@ class Matrix : public Searchable<pair<int,int>> {
     pair<int, int> goal1;
     goal1.first = x;
     goal1.second = y;
-    this->initialState = new State<T>(goal1, mat[x][y]);
+    this->goalState = new State<T>(goal1, mat[x][y]);
+  }
+
+  vector<State<pair<int,int>>*> getSuccessors(State<pair<int,int>>* s) {
+    vector<State<pair<int,int>>*> vec;
+    int x = s->state.first;
+    int y = s->state.first;
+    pair<int, int> pair1;
+    State<pair<int,int>>* state;
+
+    if(x+1 < this->mat.size()) {
+      pair1.first = x+1;
+      pair1.second = y;
+      vec.push_back(new State<pair<int,int>>(pair1));
+    }
+    if(x-1 > 0) {
+      pair1.first = x-1;
+      pair1.second = y;
+      vec.push_back(new State<T>(pair1, this->mat[x-1][y]));
+    }
+    if(y+1 < this->mat.size()) {
+      pair1.first = x;
+      pair1.second = y+1;
+      vec.push_back(new State<T>(pair1, this->mat[x][y+1]));
+    }
+    if(y-1 < this->mat.size()) {
+      pair1.first = x;
+      pair1.second = y-1;
+
+      vec.push_back(new State<T>(pair1, this->mat[x][y-1]));
+    }
   }
 
   vector<double> createValuesVector (string line) {

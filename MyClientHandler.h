@@ -37,9 +37,8 @@ class MyClientHandler : public ClientHandler<Problem, Solution>{
 
       lines.push_back(line);
     }
-
     //create matrix
-    Matrix<pair<int, int>*>* matrix = new Matrix<T>(lines);
+    Matrix matrix(lines);
 
     string ans;
 

@@ -11,12 +11,16 @@ class State {
   double value;
   State<T> *prev;
   bool isDiscovered;
-  State(T state1, double value1) {
-    this->state = state1;
-    this->value = value;
+  State(T state, double value) : state(state), value(value) {
     this->isDiscovered = false;
     this->prev = nullptr;
   }
+//  State(T state1, double value1) {
+//    this->state = state1;
+//    this->value = value1;
+//    this->isDiscovered = false;
+//    this->prev = nullptr;
+//  }
 
   void SetPrev(State<T> *prev) {
     State::prev = prev;
