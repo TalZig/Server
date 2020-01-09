@@ -13,7 +13,7 @@ class BestFirstSearch : public iSearcher<T> {
   priority_queue<State<T>> openQue;
   set<State<T>> closedSet;
   set<State<T>> openSet;
-  list<State<T>> listOfSuccessors;
+  vector<State<T>> listOfSuccessors;
 
   void pushToOpenQue(State<T> state) {
     openSet.insert(state);
@@ -53,6 +53,7 @@ class BestFirstSearch : public iSearcher<T> {
     addToOpenList(search_able.getInitialState());
     State<T> currentState;
     while (openQue.size() > 0) {
+      this->numberOfNodesEvaluated++;
       currentState = openQue.top();
       currentState.value = -currentState.value;
       openQue.pop();
@@ -61,22 +62,20 @@ class BestFirstSearch : public iSearcher<T> {
         break;
       }
       listOfSuccessors = search_able.getSuccessors(currentState);
-      while (!listOfSuccessors.empty()) {
-        typename list<State<T>>::iterator it = listOfSuccessors.begin();
-        if (!this->isInClosedSet(*it) && !this->isInOpenSet(*it)) {
-          (*it).prev = currentState;
-          pushToOpenQue(*it);
+      for (int i = 0; i < listOfSuccessors.size(); i++) {
+        if (!this->isInClosedSet(listOfSuccessors[i]) && !this->isInOpenSet(listOfSuccessors[i])) {
+          (listOfSuccessors[i]).prev = currentState;
+          pushToOpenQue(listOfSuccessors[i]);
         } else {
-          if (!this->isInOpenSet((*it)))
-            pushToOpenQue(*it);
+          if (!this->isInOpenSet((listOfSuccessors[i])))
+            pushToOpenQue(listOfSuccessors[i]);
           else {
-            (*it).value -= currentState.value;
-            (*it).prev = currentState;
-            (*it).value += currentState.value;
-            updateOpenQue((*it));
+            (listOfSuccessors[i]).value -= currentState.value;
+            (listOfSuccessors[i]).prev = currentState;
+            (listOfSuccessors[i]).value += currentState.value;
+            updateOpenQue(listOfSuccessors[i]);
           }
         }
-        listOfSuccessors.pop_front();
       }
     }
   }

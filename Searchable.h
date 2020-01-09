@@ -6,6 +6,7 @@
 #define MILESTONE2__SEARCHABLE_H_
 #include "State.h"
 #include "list"
+#include "vector"
 using namespace std;
 template <typename T>
 class Searchable {
@@ -19,7 +20,7 @@ class Searchable {
   State<T>* getGoalState(){
     return goalState;
   }
-  virtual list<State<T>*> getSuccessors(State<T>*) = 0;
+  virtual vector<State<T>*> getSuccessors(State<T>*) = 0;
 };
 
 #endif //MILESTONE2__SEARCHABLE_H_

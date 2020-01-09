@@ -10,13 +10,15 @@
 #include "unordered_map"
 #include "set"
 #include "Solver.h"
+#include "BestFirstSearch.h"
 using namespace std;
 template<typename Problem,typename Solution,typename T>
 class SearchSolver : public Solver<Problem,Solution> {
  protected:
-  iSearcher<T> searcher_;
+  iSearcher<T> *searcher_;
  public:
 
+  SearchSolver(BestFirstSearch<string> *searcher) : searcher_(searcher) {}
   Solution solve(Problem problem) override {
     return nullptr;
   }
