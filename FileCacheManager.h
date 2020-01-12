@@ -13,8 +13,8 @@ template<typename Problem, typename Solution>
 class FileCacheManager : public CacheManager<Problem, Solution> {
   class node {
    public:
-    Problem key;
-    string val;
+    string key;
+    Solution val;
   };
 
  private:
@@ -29,7 +29,7 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
     this->size = siz;
   }
   FileCacheManager() {
-    size=0;
+    size = 0;
 
   }
 
@@ -38,8 +38,8 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
     //lruAlgo(str, val);
   }
 
-/*  //func of the lruAlgorithm
-  void lruAlgo(string str, Problem val) {
+  //func of the lruAlgorithm
+  void lruAlgo(string str, Solution val) {
     node *helper = new node();
     helper->key = str;
     helper->val = val;
@@ -75,7 +75,7 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
         map[str] = lst.begin();
       }
     }
-  }*/
+  }
 
 /*  template<typename Func>
   void foreach(Func f) {
@@ -85,10 +85,8 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
   }*/
 
   Problem get(string str) {
-    return nullptr;
-  }
- /*   Problem val;
-    string fileName = Problem::class_name + str;
+    Solution val;
+    string fileName = str;
     //check if this key is in the cache
     if (map.count(str) > 0) {
       it = map[str];
@@ -100,35 +98,33 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
       lruAlgo(str, val);
       return val;
     }
-  }*/
+  }
 
   //func that writing to file
-  void WriteToFile(string str1, Problem val1) {
-    int x;
-  }
-/*    fstream file;
-    string fileName = Problem::class_name + str1;
+  void WriteToFile(string str1, Solution val1) {
+    fstream file;
+    string fileName = str1;
     file.open(fileName, ios::out | ios::binary);
     if (!file) {
       throw "problem with file";
     }
     file.write((char *) &val1, sizeof(val1));
     file.close();
-  }*/
+  }
 
   //func that reading from file
-  Problem ReadFromFile(string str1) {
-    Problem val1;
+  Solution ReadFromFile(string str1) {
+    Solution val1;
     fstream file;
     file.open(str1, ios::in | ios::binary);
     if (!file) {
-      throw "bad file";
+      return nullptr;
     }
     if (file.read((char *) &val1, sizeof(val1))) {
       file.close();
       return val1;
     } else {
-      throw "bad file";
+      return nullptr;
     }
   }
 

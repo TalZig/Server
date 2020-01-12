@@ -8,10 +8,16 @@
 class Point {
   int x;
   int y;
+  double value;
  public:
+  Point(int x, int y, double value);
   int getX();
   int getY();
-  bool operator ==(Point p2);
+  int getValue();
+  bool operator==(Point p2);
+  void setX(int x);
+  void SetY(int y);
+  void setPoint(Point p2);
 };
 
 #endif //SERVER__POINT_H_
