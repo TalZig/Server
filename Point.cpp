@@ -4,10 +4,10 @@
 
 #include "Point.h"
 int Point::getX() {
-  return x;
+  return this->x;
 }
 int Point::getY() {
-  return y;
+  return this->y;
 }
 bool Point::operator==(Point p2) {
   return(this->x == p2.getX() && this->y == p2.getY());
