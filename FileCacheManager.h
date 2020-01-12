@@ -18,7 +18,7 @@ class FileCacheManager : public CacheManager<string, string> {
   };
 
  private:
-  unordered_map<string, string>::iterator> map;
+  unordered_map<string, string> map;
   //typename list<node *>::iterator it;
   //list<node *> lst;
   //int size;

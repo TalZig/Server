@@ -15,7 +15,7 @@ using namespace std;
 class Matrix : public Searchable<Point> {
   State<Point> *initialState;
   State<Point> *goalState;
-  vector<vector<State<Point>*>> mat;
+  vector<vector<State<Point> *>> mat;
  public:
   Matrix(vector<string> lines) {
     // save last 2 lines in order to create
@@ -26,10 +26,10 @@ class Matrix : public Searchable<Point> {
 
     //create vector of vector
     for (int i = 0; i < lines.size(); ++i) {
-      vector<State<Point>*> line;
+      vector<State<Point> *> line;
       vector<double> values = createValuesVector(lines[i]);
       for (int j = 0; j < values.size(); ++j) {
-        Point* p = new Point(i, j, values[j]);
+        Point *p = new Point(i, j, values[j]);
         line.push_back(new State<Point>(p));
       }
       mat.push_back(line);
@@ -40,13 +40,13 @@ class Matrix : public Searchable<Point> {
     initLine.erase(std::remove_if(initLine.begin(), initLine.end(), ::isspace), initLine.end());
     string temp = initLine;
     auto find = initLine.find_first_of(',');
-    temp1 = initLine.substr(0,find);
+    temp1 = initLine.substr(0, find);
     int x = stoi(temp1);
     initLine = temp;
     find = initLine.find_first_of(',');
-    initLine.erase(0, find+1);
+    initLine.erase(0, find + 1);
     find = initLine.find_first_of(',');
-    temp1 = initLine.substr(find+1,initLine.size()-find);
+    temp1 = initLine.substr(find + 1, initLine.size() - find);
     int y = stoi(temp1);
     this->initialState = mat[x][y];
 
@@ -55,10 +55,10 @@ class Matrix : public Searchable<Point> {
     goalLine.erase(std::remove_if(goalLine.begin(), goalLine.end(), ::isspace), goalLine.end());
     temp = goalLine;
     find = goalLine.find_first_of(',');
-    x = stoi(temp.substr(0,find));
+    x = stoi(temp.substr(0, find));
     goalLine = temp;
     find = goalLine.find_first_of(',');
-    goalLine.erase(0, find+1);
+    goalLine.erase(0, find + 1);
     find = goalLine.find_first_of(',');
     y = stoi(goalLine.substr(find + 1, goalLine.size() - find));
     pair<int, int> goal1;
@@ -81,26 +81,26 @@ class Matrix : public Searchable<Point> {
 //  }
 
   vector<State<Point> *> getSuccessors(State<Point> *s) override {
-    vector<State<Point>*> successors;
+    vector<State<Point> *> successors;
     int x = s->state->getX();
     int y = s->state->getY();
 
-    if(x+1 < this->mat.size()) {
-      successors.push_back(mat[x+1][y]);
+    if (x + 1 < this->mat.size()) {
+      successors.push_back(mat[x + 1][y]);
     }
-    if(x-1 >= 0) {
-      successors.push_back(this->mat[x-1][y]);
+    if (x - 1 >= 0) {
+      successors.push_back(this->mat[x - 1][y]);
     }
-    if(y+1 < this->mat.size()) {
-      successors.push_back(mat[x][y+1]);
+    if (y + 1 < this->mat.size()) {
+      successors.push_back(mat[x][y + 1]);
     }
-    if(y-1 >= 0) {
-      successors.push_back(mat[x][y-1]);
+    if (y - 1 >= 0) {
+      successors.push_back(mat[x][y - 1]);
     }
     return successors;
   }
 
-  vector<double> createValuesVector (string line) {
+  vector<double> createValuesVector(string line) {
     vector<double> values;
     double val;
     string temp;
@@ -108,11 +108,11 @@ class Matrix : public Searchable<Point> {
     auto find = line.find_first_of(',');
     while (find != string::npos) {
       temp = line;
-      line.substr(0, find-1);
+      line.substr(0, find - 1);
       val = stod(line);
       values.push_back(val);
       auto find2 = temp.find_first_of(',');
-      line = temp.erase(0, find2+1);
+      line = temp.erase(0, find2 + 1);
       find = line.find_first_of(',');
     }
     //push last value
@@ -123,8 +123,8 @@ class Matrix : public Searchable<Point> {
 
   string traceBack(State<Point> *init, State<Point> *goal) override {
     string ans = "";
-    State<Point>* curr = goal;
-    State<Point>* previous = goal->prev;
+    State<Point> *curr = goal;
+    State<Point> *previous = goal->prev;
 
     // insert last move
     if (previous->state->getX() > curr->state->getX()) {
@@ -136,7 +136,8 @@ class Matrix : public Searchable<Point> {
     } else {
       ans += "Down\n";
     }
-
+    previous = previous->prev;
+    curr = curr->prev;
     while (!previous->equals(*init)) {
       if (previous->state->getX() > curr->state->getX()) {
         ans = "Left, " + ans;
