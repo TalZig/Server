@@ -11,18 +11,15 @@
 #include "set"
 #include "Solver.h"
 #include "BestFirstSearch.h"
+#include "Matrix.h"
 using namespace std;
-template<typename Problem,typename Solution,typename T>
-class SearchSolver : public Solver<Problem,Solution> {
- protected:
-  iSearcher<T> *searcher_;
- public:
 
-  SearchSolver(BestFirstSearch<string> *searcher) : searcher_(searcher) {}
-  Solution solve(Problem problem) override {
-    return this->searcher_->search(problem);
-  }
+class SearchSolver : public Solver<Matrix,string> {
+ protected:
+  iSearcher<Point> *searcher_;
  public:
+  SearchSolver(iSearcher<Point> *searcher);
+  string solve(Matrix problem) override;
 
 };
 

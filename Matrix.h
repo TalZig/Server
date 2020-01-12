@@ -55,6 +55,14 @@ class Matrix : public Searchable<Point> {
     this->goalState = mat[x][y];
   }
 
+  State<Point> *getInitialState() override {
+    this->initialState;
+  }
+
+  State<Point> *getGoalState() override {
+    this->goalState;
+  }
+
   vector<State<Point>*> getSuccessors(State<Point>* s) {
     vector<State<Point>*> successors;
     int x = s->state->getX();

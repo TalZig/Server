@@ -10,6 +10,7 @@
 #include "MyClientHandler.h"
 #include "StringReverserSolver.h"
 #include "BFS.h"
+#include "SearchSolver.h"
 
 namespace boot {
 template <typename Problem,typename Solution, typename T>
@@ -17,8 +18,8 @@ template <typename Problem,typename Solution, typename T>
    public:
     Main() {}
     int main1(int argc, char** argv) {
-      auto cm = new FileCacheManager<string, string>();
-      auto *solver = new <pair<int,int>>BFS();
+      CacheManager<string, string>* cm = new FileCacheManager();
+      Solver<Matrix, string>* solver = new SearchSolver(new BFS<Point>());
       MyClientHandler<Matrix, string> *c = new MyClientHandler<Problem, Solution>(cm, solver);
       MySerialServer<Matrix,string> s;
       s.open(atoi(argv[1]), c);

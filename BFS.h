@@ -9,17 +9,17 @@
 #include "list"
 #include "queue"
 #include "set"
-template<typename T>
-class BFS : public iSearcher<T> {
 
-  State<T> search(Searchable<T> search_able) {
+class BFS : public iSearcher<Point> {
+
+  State<Point>* search(Searchable<Point> search_able) {
     this->numberOfNodesEvaluated = 0;
-    queue<State<T>*> queue;
+    queue<State<Point>*> queue;
 
-    State<T>* n = search_able.getInitialState();
-    State<T>* goal = search_able.getGoalState();
+    State<Point>* n = search_able.getInitialState();
+    State<Point>* goal = search_able.getGoalState();
 
-    vector<State<T>*> neighbours;
+    vector<State<Point>*> neighbours;
     //insert ot queue, dont insert to list because it will be removed immediatley
     queue.push(n);
     while (!queue.empty()) {
@@ -27,7 +27,7 @@ class BFS : public iSearcher<T> {
       n = queue.front();
       queue.pop();
 
-      if (n->equals(goal)) {
+      if (n->equals(*goal)) {
         // todo traceback course
       }
 
@@ -40,7 +40,7 @@ class BFS : public iSearcher<T> {
         }
       }
     }
-    return search_able.traceBack(search_able.getInitialState(), search_able.getGoalState());
+ // todo   return search_able.traceBack(search_able.getInitialState(), search_able.getGoalState());
   }
 };
 
