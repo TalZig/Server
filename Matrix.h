@@ -25,7 +25,6 @@ class Matrix : public Searchable<Point> {
     lines.pop_back();
 
     //create vector of vector
-
     for (int i = 0; i < lines.size(); ++i) {
       vector<State<Point>*> line;
       vector<double> values = createValuesVector(lines[i]);
@@ -94,6 +93,7 @@ class Matrix : public Searchable<Point> {
       line.erase(0, find);
       val = stod(temp);
       values.push_back(val);
+      auto find = line.find_first_of(',');
     }
     //push last value
     val = stod(line);
