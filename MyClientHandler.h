@@ -29,7 +29,7 @@ class MyClientHandler : public ClientHandler{
       read(socket, buffer, 1024);
       string line(buffer);
       for (int i = 0; i < sizeof(buffer); i++) {
-        buffer[i] = '\0';
+        buffer[i] = '\0'; // todo flush?
       }
       if (!strcmp(line.c_str(), "end\r\n")) {
  //       server_side::GlobalShouldStop = true;
