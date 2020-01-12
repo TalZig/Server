@@ -127,38 +127,38 @@ class Matrix : public Searchable<Point> {
     State<Point>* previous = goal->prev;
 
     // insert last move
-    if (previous->state->getY() > curr->state->getY()) {
-      ans += "Right\n";
-    } else if (previous->state->getX() < curr->state->getX()) {
+    if (previous->state->getX() > curr->state->getX()) {
       ans += "Left\n";
+    } else if (previous->state->getX() < curr->state->getX()) {
+      ans += "Right\n";
     } else if (previous->state->getY() > curr->state->getY()) {
-      ans += "Down\n";
-    } else {
       ans += "Up\n";
+    } else {
+      ans += "Down\n";
     }
 
     while (!previous->equals(*init)) {
-      if (previous->state->getY() > curr->state->getY()) {
-        ans = "Right, " + ans;
+      if (previous->state->getX() > curr->state->getX()) {
+        ans = "Left, " + ans;
       } else if (previous->state->getX() < curr->state->getX()) {
-        ans += "Left, " + ans;
+        ans += "Right, " + ans;
       } else if (previous->state->getY() > curr->state->getY()) {
-        ans += "Down, " + ans;
-      } else {
         ans += "Up, " + ans;
+      } else {
+        ans += "Down, " + ans;
       }
       previous = previous->prev;
       curr = curr->prev;
     }
     //insert first move
-    if (previous->state->getY() > curr->state->getY()) {
-      ans = "Right, " + ans;
+    if (previous->state->getX() > curr->state->getX()) {
+      ans = "Left, " + ans;
     } else if (previous->state->getX() < curr->state->getX()) {
-      ans += "Left, " + ans;
+      ans += "Right, " + ans;
     } else if (previous->state->getY() > curr->state->getY()) {
-      ans += "Down, " + ans;
-    } else {
       ans += "Up, " + ans;
+    } else {
+      ans += "Down, " + ans;
     }
 
     // todo add values?
