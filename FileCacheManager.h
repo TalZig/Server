@@ -18,18 +18,17 @@ class FileCacheManager : public CacheManager<string, string> {
   };
 
  private:
-  unordered_map<string, typename list<node *>::iterator> map;
-  typename list<node *>::iterator it;
-  list<node *> lst;
-  int size;
+  unordered_map<string, string>::iterator> map;
+  //typename list<node *>::iterator it;
+  //list<node *> lst;
+  //int size;
   int counter = 0;
 
  public:
-  FileCacheManager(int siz) {
-    this->size = siz;
-  }
+/*  FileCacheManager(int siz) {
+    //this->size = siz;
+  }*/
   FileCacheManager() {
-    size = 5;
 
   }
 
@@ -39,7 +38,7 @@ class FileCacheManager : public CacheManager<string, string> {
   }
 
   //func of the lruAlgorithm
-  void lruAlgo(string str, string val) {
+/*  void lruAlgo(string str, string val) {
     node *helper = new node();
     helper->key = str;
     helper->val = val;
@@ -75,28 +74,29 @@ class FileCacheManager : public CacheManager<string, string> {
         map[str] = lst.begin();
       }
     }
-  }
-
+  }*/
+/*
   template<typename Func>
   void foreach(Func f) {
     for (it = lst.begin(); it != lst.end(); ++it) {
       f((*it)->val);
     }
-  }
+  }*/
 
   string get(string str) {
     string val;
     string fileName = to_string(std::hash<std::string>{}(str));    //check if this key is in the cache
     if (map.count(str) > 0) {
-      it = map[str];
-      lruAlgo(fileName, (*it)->val);
-      return (*lst.begin())->val;
+      //it = map[str];
+      //lruAlgo(fileName, (*it)->val);
+      //return (*lst.begin())->val;
       //if it doesnt in the cache
-    } else {
-      val = ReadFromFile(fileName);
-      lruAlgo(str, val);
-      return val;
+      //} else {
+      val = ReadFromFile(map[str]);
+      //lruAlgo(str, val);
+
     }
+    else return nullptr;
   }
 
 //func that writing to file
@@ -138,10 +138,10 @@ class FileCacheManager : public CacheManager<string, string> {
     }*/
   }
 
-  ~FileCacheManager() {
+/*  ~FileCacheManager() {
     for (it = lst.begin(); it != lst.end(); ++it)
       delete *it;
-  }
+  }*/
  public:
 
   bool isCacheHaveSol(string problemThatWeWantToCheck)
