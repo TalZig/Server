@@ -35,12 +35,19 @@ class Matrix : public Searchable<Point> {
       mat.push_back(line);
     }
 
+    string temp1;
     // create initial and goal states
     initLine.erase(std::remove_if(initLine.begin(), initLine.end(), ::isspace), initLine.end());
     string temp = initLine;
     auto find = initLine.find_first_of(',');
-    int x = stoi(temp.substr(0,find-1));
-    int y = stoi(initLine.substr(find+1,initLine.size()-find));
+    temp1 = initLine.substr(0,find);
+    int x = stoi(temp1);
+    initLine = temp;
+    find = initLine.find_first_of(',');
+    initLine.erase(0, find+1);
+    find = initLine.find_first_of(',');
+    temp1 = initLine.substr(find+1,initLine.size()-find);
+    int y = stoi(temp1);
     this->initialState = mat[x][y];
 
     //this->initialState = new State<pair<int,int>>(init1, mat[x][y]);
@@ -48,7 +55,11 @@ class Matrix : public Searchable<Point> {
     goalLine.erase(std::remove_if(goalLine.begin(), goalLine.end(), ::isspace), goalLine.end());
     temp = goalLine;
     find = goalLine.find_first_of(',');
-    x = stoi(temp.substr(0,find-1));
+    x = stoi(temp.substr(0,find));
+    goalLine = temp;
+    find = goalLine.find_first_of(',');
+    goalLine.erase(0, find+1);
+    find = goalLine.find_first_of(',');
     y = stoi(goalLine.substr(find + 1, goalLine.size() - find));
     pair<int, int> goal1;
     this->goalState = mat[x][y];
@@ -67,7 +78,6 @@ class Matrix : public Searchable<Point> {
     int x = s->state->getX();
     int y = s->state->getY();
 
-
     if(x+1 < this->mat.size()) {
       successors.push_back(mat[x+1][y]);
     }
@@ -85,15 +95,17 @@ class Matrix : public Searchable<Point> {
   vector<double> createValuesVector (string line) {
     vector<double> values;
     double val;
+    string temp;
     line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
     auto find = line.find_first_of(',');
     while (find != string::npos) {
-      string temp = line;
-      temp.substr(0, find-1);
-      line.erase(0, find);
-      val = stod(temp);
+      temp = line;
+      line.substr(0, find-1);
+      val = stod(line);
       values.push_back(val);
-      auto find = line.find_first_of(',');
+      auto find2 = temp.find_first_of(',');
+      line = temp.erase(0, find2+1);
+      find = line.find_first_of(',');
     }
     //push last value
     val = stod(line);

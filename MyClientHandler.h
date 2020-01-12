@@ -40,9 +40,7 @@ class MyClientHandler : public ClientHandler{
       matrixString += line;
     }
     //create matrix
-    cout<<"before matrix"<<endl;
     Matrix* matrix = new Matrix(lines);
-    cout<<"after matrix"<<endl;
     string ans;
 
     if (this->cm->isCacheHaveSol(matrixString)) {
