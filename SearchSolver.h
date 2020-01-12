@@ -18,6 +18,7 @@ class SearchSolver : public Solver<Matrix,string> {
  protected:
   iSearcher<Point> *searcher_;
  public:
+  SearchSolver(iSearcher<Point> *searcher) : searcher_(searcher) {}
   string solve(Matrix problem) {
     State<Point>* goal = this->searcher_->search(&problem);
     return problem.traceBack(problem.getInitialState(), problem.getGoalState());

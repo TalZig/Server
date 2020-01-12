@@ -7,6 +7,7 @@
 #include "State.h"
 #include "list"
 #include "vector"
+#include "string"
 using namespace std;
 template <typename T>
 class Searchable {
@@ -17,7 +18,7 @@ class Searchable {
 
   virtual vector<State<T>*> getSuccessors(State<T>* s) = 0;
 
-  virtual std::string traceBack(State<T> *init, State<T> *goal) {
+  virtual string traceBack(State<T> *init, State<T> *goal) {
     return "";
   }
 };
