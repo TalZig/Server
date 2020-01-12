@@ -9,7 +9,7 @@
 #include <string.h>
 
 template<typename Problem, typename Solution>
-void start(int port, ClientHandler<Problem, Solution> *c) {
+void start(int port, ClientHandler *c) {
   int s = socket(AF_INET, SOCK_STREAM, 0);
   struct sockaddr_in serv;
   serv.sin_addr.s_addr = INADDR_ANY;
@@ -62,7 +62,7 @@ class MySerialServer : server_side::Server<Problem, Solution> {
   thread thr1;
   bool shouldStop = false;
  public:
-  void open(int port, ClientHandler<Problem, Solution> *c) override {
+  void open(int port, ClientHandler *c) override {
     server_side::GlobalShouldStop = false;
     thread thr(start<Problem, Solution>, port, c);
     thr.join();

@@ -16,7 +16,7 @@ static bool GlobalShouldStop = false;
 template<typename Problem,typename Solution>
 class Server {
  public:
-  virtual void open(int port, ClientHandler<Problem,Solution>* c) = 0;
+  virtual void open(int port, ClientHandler* c) = 0;
   virtual void stop() = 0;
 };
 
