@@ -18,9 +18,10 @@ class SearchSolver : public Solver<Matrix,string> {
  protected:
   iSearcher<Point> *searcher_;
  public:
-  SearchSolver(iSearcher<Point> *searcher);
-  string solve(Matrix problem) override;
-
+  string solve(Matrix problem) {
+    State<Point>* goal = this->searcher_->search(&problem);
+    return problem.traceBack(problem.getInitialState(), problem.getGoalState());
+  }
 };
 
 #endif //MILESTONE2__SEARCHER_H_

@@ -8,7 +8,7 @@
 #include "FileCacheManager.h"
 #include "server_side.h"
 template <typename Problem, typename Solution>
-class MyTestClientHandler : public ClientHandler<Problem,Solution> {
+class MyTestClientHandler : public ClientHandler {
   Solver<Problem, Solution>* solver;
   CacheManager<Problem, Solution>* cm;
  public:

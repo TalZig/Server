@@ -38,8 +38,8 @@ class FileCacheManager : public CacheManager<string, string> {
     //lruAlgo(str, val);
   }
 
-/*  //func of the lruAlgorithm
-  void lruAlgo(string str, Problem val) {
+  //func of the lruAlgorithm
+  void lruAlgo(string str, string val) {
     node *helper = new node();
     helper->key = str;
     helper->val = val;
@@ -75,24 +75,21 @@ class FileCacheManager : public CacheManager<string, string> {
         map[str] = lst.begin();
       }
     }
-  }*/
+  }
 
-/*  template<typename Func>
+  template<typename Func>
   void foreach(Func f) {
     for (it = lst.begin(); it != lst.end(); ++it) {
       f((*it)->val);
     }
-  }*/
+  }
 
   string get(string str) {
-    return "";
-  }
- /*   Problem val;
-    string fileName = Problem::class_name + str;
-    //check if this key is in the cache
+    string val;
+    string fileName = to_string(std::hash<std::string>{}(str));    //check if this key is in the cache
     if (map.count(str) > 0) {
       it = map[str];
-      lruAlgo(str, (*it)->val);
+      lruAlgo(fileName, (*it)->val);
       return (*lst.begin())->val;
       //if it doesnt in the cache
     } else {
@@ -100,36 +97,45 @@ class FileCacheManager : public CacheManager<string, string> {
       lruAlgo(str, val);
       return val;
     }
-  }*/
-
-  //func that writing to file
-  void WriteToFile(string str1, string val1) {
-    int x;
   }
-/*    fstream file;
-    string fileName = Problem::class_name + str1;
-    file.open(fileName, ios::out | ios::binary);
+
+//func that writing to file
+  void WriteToFile(string str1, string val1) {
+
+    fstream file;
+    string fileName = to_string(std::hash<std::string>{}(str1));
+    //file.open(fileName, ios::out | ios::binary);
+    ofstream file1(fileName);
     if (!file) {
       throw "problem with file";
     }
-    file.write((char *) &val1, sizeof(val1));
-    file.close();
-  }*/
+    /*file.write((char *) &val1, sizeof(val1));*/
+    file1 << val1;
+    file1.close();
+  }
 
-  //func that reading from file
+//func that reading from file
   string ReadFromFile(string str1) {
-    string val1;
+    ifstream file;
+    string fileName = to_string(std::hash<std::string>{}(str1));
+    file.open(fileName);
+    string line;
+    getline(file,line);
+    return line;
+/*    string val1;
     fstream file;
     file.open(str1, ios::in | ios::binary);
     if (!file) {
       throw "bad file";
     }
     if (file.read((char *) &val1, sizeof(val1))) {
-      file.close();
-      return val1;
+      file.
+          close();
+      return
+          val1;
     } else {
       throw "bad file";
-    }
+    }*/
   }
 
   ~FileCacheManager() {
@@ -138,7 +144,8 @@ class FileCacheManager : public CacheManager<string, string> {
   }
  public:
 
-  bool isCacheHaveSol(string problemThatWeWantToCheck) override {
+  bool isCacheHaveSol(string problemThatWeWantToCheck)
+  override {
     return false;
   }
 };

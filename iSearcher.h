@@ -10,7 +10,7 @@ class iSearcher {
  protected:
   int numberOfNodesEvaluated;
  public:
-  virtual State<T>* search(Searchable<T> search_able) = 0;
+  virtual State<T>* search(Searchable<T>* search_able) = 0;
 
 };
 

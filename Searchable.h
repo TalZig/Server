@@ -17,7 +17,7 @@ class Searchable {
 
   virtual vector<State<T>*> getSuccessors(State<T>* s) = 0;
 
-  virtual string traceBack(State<T> *init, State<T> *goal) {
+  virtual std::string traceBack(State<T> *init, State<T> *goal) {
     return "";
   }
 };
