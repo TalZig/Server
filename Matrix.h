@@ -123,6 +123,11 @@ class Matrix : public Searchable<Point> {
 
   string traceBack(State<Point> *init, State<Point> *goal) override {
     string ans = "";
+    // if goal is initial
+    if(goal->prev == NULL) {
+      return ans;
+    }
+
     State<Point> *curr = goal;
     State<Point> *previous = goal->prev;
 
@@ -133,7 +138,7 @@ class Matrix : public Searchable<Point> {
       ans += "Right\n";
     } else if (previous->state->getY() > curr->state->getY()) {
       ans += "Up\n";
-    } else {
+    } else if (previous->state->getY() < curr->state->getY()){
       ans += "Down\n";
     }
     previous = previous->prev;
@@ -142,11 +147,11 @@ class Matrix : public Searchable<Point> {
       if (previous->state->getX() > curr->state->getX()) {
         ans = "Left, " + ans;
       } else if (previous->state->getX() < curr->state->getX()) {
-        ans += "Right, " + ans;
+        ans = "Right, " + ans;
       } else if (previous->state->getY() > curr->state->getY()) {
-        ans += "Up, " + ans;
-      } else {
-        ans += "Down, " + ans;
+        ans = "Up, " + ans;
+      } else if (previous->state->getY() < curr->state->getY()){
+        ans = "Down, " + ans;
       }
       previous = previous->prev;
       curr = curr->prev;
@@ -155,11 +160,11 @@ class Matrix : public Searchable<Point> {
     if (previous->state->getX() > curr->state->getX()) {
       ans = "Left, " + ans;
     } else if (previous->state->getX() < curr->state->getX()) {
-      ans += "Right, " + ans;
+      ans = "Right, " + ans;
     } else if (previous->state->getY() > curr->state->getY()) {
-      ans += "Up, " + ans;
-    } else {
-      ans += "Down, " + ans;
+      ans = "Up, " + ans;
+    } else if (previous->state->getY() < curr->state->getY()){
+      ans = "Down, " + ans;
     }
 
     // todo add values?
