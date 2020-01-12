@@ -32,7 +32,7 @@ class MyClientHandler : public ClientHandler{
         buffer[i] = '\0';
       }
       if (!strcmp(line.c_str(), "end\r\n")) {
-        //GlobalShouldStop = true;
+ //       server_side::GlobalShouldStop = true;
         break;
       }
 
@@ -40,14 +40,15 @@ class MyClientHandler : public ClientHandler{
       matrixString += line;
     }
     //create matrix
-    Matrix matrix(lines);
-
+    cout<<"before matrix"<<endl;
+    Matrix* matrix = new Matrix(lines);
+    cout<<"after matrix"<<endl;
     string ans;
 
     if (this->cm->isCacheHaveSol(matrixString)) {
       ans = this->cm->get(matrixString);
     } else {
-      ans = this->solver->solve(matrix);
+      ans = this->solver->solve(*matrix);
       this->cm->insert(matrixString, ans);
     }
 
