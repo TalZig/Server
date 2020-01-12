@@ -97,6 +97,7 @@ class Matrix : public Searchable<Point> {
     if(y-1 >= 0) {
       successors.push_back(mat[x][y-1]);
     }
+    return successors;
   }
 
   vector<double> createValuesVector (string line) {

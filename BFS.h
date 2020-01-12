@@ -17,7 +17,8 @@ class BFS : public iSearcher<T> {
     this->numberOfNodesEvaluated = 0;
     queue<State<T>*> queue;
 
-    State<T>* n = search_able->getInitialState();
+    State<T>* n;
+    n = search_able->getInitialState();
     State<T>* goal = search_able->getGoalState();
 
     vector<State<T>*> neighbours;
@@ -29,6 +30,7 @@ class BFS : public iSearcher<T> {
       queue.pop();
 
       if (n->equals(*goal)) {
+        break;
         // todo traceback course
       }
 
