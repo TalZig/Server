@@ -10,16 +10,17 @@
 #include "queue"
 #include "set"
 
-class BFS : public iSearcher<Point> {
+template <typename T>
+class BFS : public iSearcher<T> {
 
-  State<Point>* search(Searchable<Point> search_able) {
+  State<T>* search(Searchable<T> search_able) {
     this->numberOfNodesEvaluated = 0;
-    queue<State<Point>*> queue;
+    queue<State<T>*> queue;
 
-    State<Point>* n = search_able.getInitialState();
-    State<Point>* goal = search_able.getGoalState();
+    State<T>* n = search_able.getInitialState();
+    State<T>* goal = search_able.getGoalState();
 
-    vector<State<Point>*> neighbours;
+    vector<State<T>*> neighbours;
     //insert ot queue, dont insert to list because it will be removed immediatley
     queue.push(n);
     while (!queue.empty()) {
