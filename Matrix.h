@@ -94,7 +94,7 @@ class Matrix : public Searchable<Point> {
     if(y+1 < this->mat.size()) {
       successors.push_back(mat[x][y+1]);
     }
-    if(y-1 >= this->mat.size()) {
+    if(y-1 >= 0) {
       successors.push_back(mat[x][y-1]);
     }
   }
