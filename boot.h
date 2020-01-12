@@ -9,6 +9,7 @@
 #include "MySerialServer.h"
 #include "MyClientHandler.h"
 #include "StringReverserSolver.h"
+#include "BFS.h"
 
 namespace boot {
 template <typename Problem,typename Solution, typename T>
@@ -17,9 +18,9 @@ template <typename Problem,typename Solution, typename T>
     Main() {}
     int main1(int argc, char** argv) {
       auto cm = new FileCacheManager<string, string>();
-      auto *solver = new StringReverserSolver();
-      MyClientHandler<Matrix<pair<int,int>>, State<pair<int,int>>, pair<int,int>> *c = new MyClientHandler<Problem, Solution, T>(cm, solver);
-      MySerialServer<string,string> s;
+      auto *solver = new <pair<int,int>>BFS();
+      MyClientHandler<Matrix, string> *c = new MyClientHandler<Problem, Solution>(cm, solver);
+      MySerialServer<Matrix,string> s;
       s.open(atoi(argv[1]), c);
     }
   };

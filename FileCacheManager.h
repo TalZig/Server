@@ -9,12 +9,12 @@
 #include <list>
 #include "unordered_map"
 using namespace std;
-template<typename Problem, typename Solution>
-class FileCacheManager : public CacheManager<Problem, Solution> {
+//template<typename Problem, typename Solution>
+class FileCacheManager : public CacheManager<string, string> {
   class node {
    public:
     string key;
-    Solution val;
+    string val;
   };
 
  private:
@@ -29,17 +29,17 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
     this->size = siz;
   }
   FileCacheManager() {
-    size = 0;
+    size = 5;
 
   }
 
-  void insert(Problem str, Solution val) {
+  void insert(string str, string val) {
     WriteToFile(str, val);
     //lruAlgo(str, val);
   }
 
-  //func of the lruAlgorithm
-  void lruAlgo(string str, Solution val) {
+/*  //func of the lruAlgorithm
+  void lruAlgo(string str, Problem val) {
     node *helper = new node();
     helper->key = str;
     helper->val = val;
@@ -75,7 +75,7 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
         map[str] = lst.begin();
       }
     }
-  }
+  }*/
 
 /*  template<typename Func>
   void foreach(Func f) {
@@ -84,9 +84,11 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
     }
   }*/
 
-  Problem get(string str) {
-    Solution val;
-    string fileName = str;
+  string get(string str) {
+    return "";
+  }
+ /*   Problem val;
+    string fileName = Problem::class_name + str;
     //check if this key is in the cache
     if (map.count(str) > 0) {
       it = map[str];
@@ -98,33 +100,35 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
       lruAlgo(str, val);
       return val;
     }
-  }
+  }*/
 
   //func that writing to file
-  void WriteToFile(string str1, Solution val1) {
-    fstream file;
-    string fileName = str1;
+  void WriteToFile(string str1, string val1) {
+    int x;
+  }
+/*    fstream file;
+    string fileName = Problem::class_name + str1;
     file.open(fileName, ios::out | ios::binary);
     if (!file) {
       throw "problem with file";
     }
     file.write((char *) &val1, sizeof(val1));
     file.close();
-  }
+  }*/
 
   //func that reading from file
-  Solution ReadFromFile(string str1) {
-    Solution val1;
+  string ReadFromFile(string str1) {
+    string val1;
     fstream file;
     file.open(str1, ios::in | ios::binary);
     if (!file) {
-      return nullptr;
+      throw "bad file";
     }
     if (file.read((char *) &val1, sizeof(val1))) {
       file.close();
       return val1;
     } else {
-      return nullptr;
+      throw "bad file";
     }
   }
 
@@ -134,7 +138,7 @@ class FileCacheManager : public CacheManager<Problem, Solution> {
   }
  public:
 
-  bool isCacheHaveSol(Problem problemThatWeWantToCheck) override {
+  bool isCacheHaveSol(string problemThatWeWantToCheck) override {
     return false;
   }
 };

@@ -10,7 +10,6 @@
 #include <sys/socket.h>
 #include "Solver.h"
 using namespace std;
-template <typename Problem,typename Solution>
 class ClientHandler {
 
  public:

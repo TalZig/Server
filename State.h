@@ -7,28 +7,22 @@
 template<typename T>
 class State {
  public:
-  T state;
-  double value;
+  T* state;
   State<T> *prev;
   bool isDiscovered;
-  State(T state, double value) : state(state), value(value) {
-    this->isDiscovered = false;
-    this->prev = nullptr;
-  }
-//  State(T state1, double value1) {
-//    this->state = state1;
-//    this->value = value1;
+  State() {}
+//  State<T>(T state, double value) : state(state), value(value) {
 //    this->isDiscovered = false;
 //    this->prev = nullptr;
 //  }
+  State<T>(T* state1) {
+    this->state = state1;
+    this->isDiscovered = false;
+    this->prev = nullptr;
+  }
 
   void SetPrev(State<T> *prev) {
     State::prev = prev;
-  }
-
-  bool operator<(State<T> state1) {
-    //its the opposite because in searches the smaller is better than the bigger
-    return (this->value > state1.value);
   }
 
   bool equals(State<T> state1) {

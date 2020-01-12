@@ -11,6 +11,7 @@
 #include "set"
 template<typename T>
 class BFS : public iSearcher<T> {
+
   State<T> search(Searchable<T> search_able) {
     this->numberOfNodesEvaluated = 0;
     queue<State<T>*> queue;

@@ -9,12 +9,14 @@
 #include <string>
 #include <algorithm>
 #include "Searchable.h"
+#include "Point.h"
 using namespace std;
 //template <typename T>
-class Matrix : public Searchable<pair<int,int>> {
- vector<vector<State<pair<int, int>>*>> mat;
+class Matrix : public Searchable<Point> {
+  State<Point> *initialState;
+  State<Point> *goalState;
+  vector<vector<State<Point>*>> mat;
  public:
-
   Matrix(vector<string> lines) {
     // save last 2 lines in order to create
     string goalLine = lines.back();
@@ -25,13 +27,11 @@ class Matrix : public Searchable<pair<int,int>> {
     //create vector of vector
 
     for (int i = 0; i < lines.size(); ++i) {
-      vector<State<pair<int,int>>*> line;
+      vector<State<Point>*> line;
       vector<double> values = createValuesVector(lines[i]);
       for (int j = 0; j < values.size(); ++j) {
-        pair<int, int> pair1;
-        pair1.first = i;
-        pair1.second = j;
-        line.push_back(new State<pair<int, int>>(pair1, values[j]));
+        Point* p = new Point(i, j, values[j]);
+        line.push_back(new State<Point>(p));
       }
       mat.push_back(line);
     }
@@ -42,10 +42,7 @@ class Matrix : public Searchable<pair<int,int>> {
     auto find = initLine.find_first_of(',');
     int x = stoi(temp.substr(0,find-1));
     int y = stoi(initLine.substr(find+1,initLine.size()-find));
-    pair<int, int> init1;
-    init1.first = x;
-    init1.second = y;
-    this->initialState = new State<T>(init1, mat[x][y]);
+    this->initialState = mat[x][y];
 
     //this->initialState = new State<pair<int,int>>(init1, mat[x][y]);
 
@@ -55,38 +52,26 @@ class Matrix : public Searchable<pair<int,int>> {
     x = stoi(temp.substr(0,find-1));
     y = stoi(goalLine.substr(find + 1, goalLine.size() - find));
     pair<int, int> goal1;
-    goal1.first = x;
-    goal1.second = y;
-    this->goalState = new State<T>(goal1, mat[x][y]);
+    this->goalState = mat[x][y];
   }
 
-  vector<State<pair<int,int>>*> getSuccessors(State<pair<int,int>>* s) {
-    vector<State<pair<int,int>>*> vec;
-    int x = s->state.first;
-    int y = s->state.first;
-    pair<int, int> pair1;
-    State<pair<int,int>>* state;
+  vector<State<Point>*> getSuccessors(State<Point>* s) {
+    vector<State<Point>*> successors;
+    int x = s->state->getX();
+    int y = s->state->getY();
+
 
     if(x+1 < this->mat.size()) {
-      pair1.first = x+1;
-      pair1.second = y;
-      vec.push_back(new State<pair<int,int>>(pair1));
+      successors.push_back(mat[x+1][y]);
     }
-    if(x-1 > 0) {
-      pair1.first = x-1;
-      pair1.second = y;
-      vec.push_back(new State<T>(pair1, this->mat[x-1][y]));
+    if(x-1 >= 0) {
+      successors.push_back(this->mat[x-1][y]);
     }
     if(y+1 < this->mat.size()) {
-      pair1.first = x;
-      pair1.second = y+1;
-      vec.push_back(new State<T>(pair1, this->mat[x][y+1]));
+      successors.push_back(mat[x][y+1]);
     }
-    if(y-1 < this->mat.size()) {
-      pair1.first = x;
-      pair1.second = y-1;
-
-      vec.push_back(new State<T>(pair1, this->mat[x][y-1]));
+    if(y-1 >= this->mat.size()) {
+      successors.push_back(mat[x][y-1]);
     }
   }
 
@@ -108,35 +93,51 @@ class Matrix : public Searchable<pair<int,int>> {
     return values;
   }
 
-  string traceBack(State<pair<int,int>> *init, State<pair<int,int>> *goal) override {
+  string traceBack(State<Point> *init, State<Point> *goal) override {
     string ans = "";
-    State<pair<int, int>>* curr = goal;
-    State<pair<int, int>>* previous = goal->prev;
-    while (!previous->equals(*init)) {
-      if (previous->state.first > curr->state.first) {
-        ans += "Right,";
-      } else if (previous->state.first < curr->state.first) {
-        ans += "Left,";
-      } else if (previous->state.second > curr->state.second) {
-        ans += "Down,";
-      } else {
-        ans += "Up,";
-      }
-      previous = previous->prev;
-      curr = curr->prev;
-    }
-    //check last move
-    if (previous->state.first > curr->state.first) {
+    State<Point>* curr = goal;
+    State<Point>* previous = goal->prev;
+
+    // insert last move
+    if (previous->state->getY() > curr->state->getY()) {
       ans += "Right\n";
-    } else if (previous->state.first < curr->state.first) {
+    } else if (previous->state->getX() < curr->state->getX()) {
       ans += "Left\n";
-    } else if (previous->state.second > curr->state.second) {
+    } else if (previous->state->getY() > curr->state->getY()) {
       ans += "Down\n";
     } else {
       ans += "Up\n";
     }
+
+    while (!previous->equals(*init)) {
+      if (previous->state->getY() > curr->state->getY()) {
+        ans = "Right, " + ans;
+      } else if (previous->state->getX() < curr->state->getX()) {
+        ans += "Left, " + ans;
+      } else if (previous->state->getY() > curr->state->getY()) {
+        ans += "Down, " + ans;
+      } else {
+        ans += "Up, " + ans;
+      }
+      previous = previous->prev;
+      curr = curr->prev;
+    }
+    //insert first move
+    if (previous->state->getY() > curr->state->getY()) {
+      ans = "Right, " + ans;
+    } else if (previous->state->getX() < curr->state->getX()) {
+      ans += "Left, " + ans;
+    } else if (previous->state->getY() > curr->state->getY()) {
+      ans += "Down, " + ans;
+    } else {
+      ans += "Up, " + ans;
+    }
+
+    // todo add values?
+
     return ans;
   }
+
 };
 
 #endif //SERVER__MATRIX_H_
