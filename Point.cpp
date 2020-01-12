@@ -28,3 +28,13 @@ void Point::setPoint(Point p2) {
   this->y = p2.getY();
   this->value = p2.getValue();
 }
+int Point::getValue() {
+  return this->value;
+}
+bool Point ::operator<(Point p2) {
+  //its the opposite because in searches the smaller is better than the bigger
+  return (this->value > p2.getValue());
+}
+bool Point::operator>(Point p2) {
+  //its the opposite because in searches the smaller is better than the bigger
+  return (this->value < p2.getValue());}

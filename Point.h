@@ -18,6 +18,8 @@ class Point {
   void setX(int x);
   void SetY(int y);
   void setPoint(Point p2);
+  bool operator <(Point p2);
+  bool operator >(Point p2);
 };
 
 #endif //SERVER__POINT_H_

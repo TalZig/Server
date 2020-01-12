@@ -11,13 +11,9 @@ using namespace std;
 template <typename T>
 class Searchable {
  public:
-  State<T>* getInitialState () {
-    return initialState;
-  }
+  virtual State<T>* getInitialState () = 0;
 
-  State<T>* getGoalState(){
-    return goalState;
-  }
+  virtual State<T>* getGoalState() = 0;
 
   virtual vector<State<T>*> getSuccessors(State<T>* s) = 0;
 
