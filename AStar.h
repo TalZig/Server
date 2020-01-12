@@ -11,10 +11,10 @@
 template<typename T>
 class AStar : public iSearcher<T> {
   priority_queue<State<T>*> open;
-  State<T> search(Searchable<T> search_able) {
+  State<T> search(Searchable<T>* search_able) {
     set<State<T>*> open;
 
-    open.insert(search_able.getInitialState());
+    open.insert(search_able->getInitialState());
   }
   double hCost(State<T> state1,State<T> goal){
 

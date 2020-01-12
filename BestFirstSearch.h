@@ -48,9 +48,9 @@ class BestFirstSearch : public iSearcher<T> {
     }
   }
  public:
-  State<T> search(Searchable<T> search_able) override {
-    pushToOpenQue(search_able.getInitialState());
-    addToOpenList(search_able.getInitialState());
+  State<T> search(Searchable<T>* search_able) override {
+    pushToOpenQue(search_able->getInitialState());
+    addToOpenList(search_able->getInitialState());
     State<T> currentState;
     while (openQue.size() > 0) {
       this->numberOfNodesEvaluated++;
@@ -58,10 +58,10 @@ class BestFirstSearch : public iSearcher<T> {
       currentState.value = -currentState.value;
       openQue.pop();
       this->addToClosedSet(currentState);
-      if (currentState.equals(search_able.getGoalState())) {
+      if (currentState.equals(search_able->getGoalState())) {
         break;
       }
-      listOfSuccessors = search_able.getSuccessors(currentState);
+      listOfSuccessors = search_able->getSuccessors(currentState);
       for (int i = 0; i < listOfSuccessors.size(); i++) {
         if (!this->isInClosedSet(listOfSuccessors[i]) && !this->isInOpenSet(listOfSuccessors[i])) {
           (listOfSuccessors[i]).prev = currentState;

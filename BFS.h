@@ -13,12 +13,12 @@
 template <typename T>
 class BFS : public iSearcher<T> {
 
-  State<T>* search(Searchable<T> search_able) {
+  State<T>* search(Searchable<T>* search_able) {
     this->numberOfNodesEvaluated = 0;
     queue<State<T>*> queue;
 
-    State<T>* n = search_able.getInitialState();
-    State<T>* goal = search_able.getGoalState();
+    State<T>* n = search_able->getInitialState();
+    State<T>* goal = search_able->getGoalState();
 
     vector<State<T>*> neighbours;
     //insert ot queue, dont insert to list because it will be removed immediatley
@@ -32,7 +32,7 @@ class BFS : public iSearcher<T> {
         // todo traceback course
       }
 
-      neighbours = search_able.getSuccessors(n);
+      neighbours = search_able->getSuccessors(n);
       for (int i = 0; i < neighbours.size(); ++i) {
         if(neighbours[i]->isDiscovered == false){
           neighbours[i]->isDiscovered = true;

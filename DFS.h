@@ -8,12 +8,12 @@
 #include "stack"
 template <typename T>
 class DFS : public iSearcher<T>{
-  State<T> search(Searchable<T> search_able) {
+  State<T> search(Searchable<T>* search_able) {
     this->numberOfNodesEvaluated = 0;
     stack<State<T>*> stack;
 
-    State<T>* n = search_able.getInitialState();
-    State<T>* goal = search_able.getGoalState();
+    State<T>* n = search_able->getInitialState();
+    State<T>* goal = search_able->getGoalState();
 
     vector<State<T>*> neighbours;
     //insert ot stack, dont insert to list because it will be removed immediatley
@@ -26,7 +26,7 @@ class DFS : public iSearcher<T>{
         // todo traceback course
       }
 
-      neighbours = search_able.getSuccessors(n);
+      neighbours = search_able->getSuccessors(n);
       for (int i = 0; i < neighbours.size(); ++i) {
         if(neighbours[i]->isDiscovered == false){
           neighbours[i]->isDiscovered = true;
@@ -35,7 +35,7 @@ class DFS : public iSearcher<T>{
         }
       }
     }
-    return search_able.traceBack(search_able.getInitialState(), search_able.getGoalState());
+    return search_able->traceBack(search_able->getInitialState(), search_able->getGoalState());
   }
 };
 
