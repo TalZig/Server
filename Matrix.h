@@ -122,53 +122,86 @@ class Matrix : public Searchable<Point> {
     return values;
   }
 
-  string traceBack(State<Point> *init, State<Point> *goal) override {
+  string traceBack(State<Point> *goal) override {
     string ans = "";
-    // if goal is initial
-    if(goal->prev == NULL) {
-      return ans;
-    }
+    double sum = 0;
 
     State<Point> *curr = goal;
-    State<Point> *previous = goal->prev;
+    vector<State<Point>*> path;
 
-    // insert last move
-    if (previous->state->getX() > curr->state->getX()) {
-      ans += "Left\n";
-    } else if (previous->state->getX() < curr->state->getX()) {
-      ans += "Right\n";
-    } else if (previous->state->getY() > curr->state->getY()) {
-      ans += "Up\n";
-    } else if (previous->state->getY() < curr->state->getY()){
-      ans += "Down\n";
-    }
-    previous = previous->prev;
-    curr = curr->prev;
-    while (!previous->equals(*init)) {
-      if (previous->state->getX() > curr->state->getX()) {
-        ans = "Left, " + ans;
-      } else if (previous->state->getX() < curr->state->getX()) {
-        ans = "Right, " + ans;
-      } else if (previous->state->getY() > curr->state->getY()) {
-        ans = "Up, " + ans;
-      } else if (previous->state->getY() < curr->state->getY()){
-        ans = "Down, " + ans;
-      }
-      previous = previous->prev;
+    while(curr != NULL) {
       curr = curr->prev;
-    }
-    //insert first move
-    if (previous->state->getX() > curr->state->getX()) {
-      ans = "Left, " + ans;
-    } else if (previous->state->getX() < curr->state->getX()) {
-      ans = "Right, " + ans;
-    } else if (previous->state->getY() > curr->state->getY()) {
-      ans = "Up, " + ans;
-    } else if (previous->state->getY() < curr->state->getY()){
-      ans = "Down, " + ans;
+      path.push_back(curr);
     }
 
-    // todo add values?
+    State<Point>* next;
+    State<Point>* temp;
+    curr = path.back();
+    sum += curr->state->value;
+    path.pop_back();
+    next = path.back();
+    path.pop_back();
+    while (!path.empty()) {
+      sum += next->state->value;
+      if (curr->state->getX() > next->state->getX()) {
+        ans += "Right(" + to_string(sum) + "), ";
+      } else if (curr->state->getX() < next->state->getX()) {
+        ans += "Left(" + to_string(sum) + "), ";
+      } else if (curr->state->getY() > next->state->getY()) {
+        ans += "Down(" + to_string(sum) + "), ";
+      } else if (curr->state->getY() < next->state->getY()){
+        ans += "Up(" + to_string(sum) + "), ";
+      }
+      curr = next;
+      next = path.back();
+      path.pop_back();
+    }
+    // insert last move
+    sum += next->state->value;
+    if (curr->state->getX() > next->state->getX()) {
+      ans += "Right(" + to_string(sum) + ")\n";
+    } else if (curr->state->getX() < next->state->getX()) {
+      ans += "Left(" + to_string(sum) + ")\n";
+    } else if (curr->state->getY() > next->state->getY()) {
+      ans += "Down(" + to_string(sum) + ")\n";
+    } else if (curr->state->getY() < next->state->getY()){
+      ans += "Up(" + to_string(sum) + ")\n";
+    }
+//    if (previous->state->getX() > curr->state->getX()) {
+//      ans += "Left\n";
+//    } else if (previous->state->getX() < curr->state->getX()) {
+//      ans += "Right\n";
+//    } else if (previous->state->getY() > curr->state->getY()) {
+//      ans += "Up\n";
+//    } else if (previous->state->getY() < curr->state->getY()){
+//      ans += "Down\n";
+//    }
+//    previous = previous->prev;
+//    curr = curr->prev;
+//    while (!previous->equals(*init)) {
+//      if (previous->state->getX() > curr->state->getX()) {
+//        ans = "Left, " + ans;
+//      } else if (previous->state->getX() < curr->state->getX()) {
+//        ans = "Right, " + ans;
+//      } else if (previous->state->getY() > curr->state->getY()) {
+//        ans = "Up, " + ans;
+//      } else if (previous->state->getY() < curr->state->getY()){
+//        ans = "Down, " + ans;
+//      }
+//      previous = previous->prev;
+//      curr = curr->prev;
+//    }
+//    //insert first move
+//    if (previous->state->getX() > curr->state->getX()) {
+//      ans = "Left, " + ans;
+//    } else if (previous->state->getX() < curr->state->getX()) {
+//      ans = "Right, " + ans;
+//    } else if (previous->state->getY() > curr->state->getY()) {
+//      ans = "Up, " + ans;
+//    } else if (previous->state->getY() < curr->state->getY()){
+//      ans = "Down, " + ans;
+//    }
+
 
     return ans;
   }
