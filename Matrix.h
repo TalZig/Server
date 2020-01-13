@@ -51,8 +51,6 @@ class Matrix : public Searchable<Point> {
     int y = stoi(temp1);
     this->initialState = mat[x][y];
 
-    //this->initialState = new State<pair<int,int>>(init1, mat[x][y]);
-
     goalLine.erase(std::remove_if(goalLine.begin(), goalLine.end(), ::isspace), goalLine.end());
     temp = goalLine;
     find = goalLine.find_first_of(',');
@@ -72,14 +70,6 @@ class Matrix : public Searchable<Point> {
   State<Point> *getGoalState() override {
     return goalState;
   }
-//
-//  State<Point>* getInitialState() override {
-//    this->initialState;
-//  }
-//
-//  State<Point>* getGoalState() override {
-//    this->goalState;
-//  }
 
   vector<State<Point> *> getSuccessors(State<Point> *s) override {
     vector<State<Point> *> successors;
@@ -130,8 +120,8 @@ class Matrix : public Searchable<Point> {
     vector<State<Point>*> path;
 
     while(curr != NULL) {
-      curr = curr->prev;
       path.push_back(curr);
+      curr = curr->prev;
     }
 
     State<Point>* next;
@@ -143,14 +133,14 @@ class Matrix : public Searchable<Point> {
     path.pop_back();
     while (!path.empty()) {
       sum += next->state->value;
-      if (curr->state->getX() > next->state->getX()) {
-        ans += "Right(" + to_string(sum) + "), ";
-      } else if (curr->state->getX() < next->state->getX()) {
-        ans += "Left(" + to_string(sum) + "), ";
+      if (curr->state->getY() < next->state->getY()) {
+        ans += "Right(" + to_string((int)sum) + "), ";
       } else if (curr->state->getY() > next->state->getY()) {
-        ans += "Down(" + to_string(sum) + "), ";
-      } else if (curr->state->getY() < next->state->getY()){
-        ans += "Up(" + to_string(sum) + "), ";
+        ans += "Left(" + to_string((int)sum) + "), ";
+      } else if (curr->state->getX() < next->state->getX()) {
+        ans += "Down(" + to_string((int)sum) + "), ";
+      } else if (curr->state->getX() > next->state->getX()){
+        ans += "Up(" + to_string((int)sum) + "), ";
       }
       curr = next;
       next = path.back();
@@ -158,51 +148,15 @@ class Matrix : public Searchable<Point> {
     }
     // insert last move
     sum += next->state->value;
-    if (curr->state->getX() > next->state->getX()) {
-      ans += "Right(" + to_string(sum) + ")\n";
-    } else if (curr->state->getX() < next->state->getX()) {
-      ans += "Left(" + to_string(sum) + ")\n";
+    if (curr->state->getY() < next->state->getY()) {
+      ans += "Right(" + to_string((int)sum) + ")\n";
     } else if (curr->state->getY() > next->state->getY()) {
-      ans += "Down(" + to_string(sum) + ")\n";
-    } else if (curr->state->getY() < next->state->getY()){
-      ans += "Up(" + to_string(sum) + ")\n";
+      ans += "Left(" + to_string((int)sum) + ")\n";
+    } else if (curr->state->getX() < next->state->getX()) {
+      ans += "Down(" + to_string((int)sum) + ")\n";
+    } else if (curr->state->getX() > next->state->getX()){
+      ans += "Up(" + to_string((int)sum) + ")\n";
     }
-//    if (previous->state->getX() > curr->state->getX()) {
-//      ans += "Left\n";
-//    } else if (previous->state->getX() < curr->state->getX()) {
-//      ans += "Right\n";
-//    } else if (previous->state->getY() > curr->state->getY()) {
-//      ans += "Up\n";
-//    } else if (previous->state->getY() < curr->state->getY()){
-//      ans += "Down\n";
-//    }
-//    previous = previous->prev;
-//    curr = curr->prev;
-//    while (!previous->equals(*init)) {
-//      if (previous->state->getX() > curr->state->getX()) {
-//        ans = "Left, " + ans;
-//      } else if (previous->state->getX() < curr->state->getX()) {
-//        ans = "Right, " + ans;
-//      } else if (previous->state->getY() > curr->state->getY()) {
-//        ans = "Up, " + ans;
-//      } else if (previous->state->getY() < curr->state->getY()){
-//        ans = "Down, " + ans;
-//      }
-//      previous = previous->prev;
-//      curr = curr->prev;
-//    }
-//    //insert first move
-//    if (previous->state->getX() > curr->state->getX()) {
-//      ans = "Left, " + ans;
-//    } else if (previous->state->getX() < curr->state->getX()) {
-//      ans = "Right, " + ans;
-//    } else if (previous->state->getY() > curr->state->getY()) {
-//      ans = "Up, " + ans;
-//    } else if (previous->state->getY() < curr->state->getY()){
-//      ans = "Down, " + ans;
-//    }
-
-
     return ans;
   }
 

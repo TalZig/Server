@@ -31,14 +31,15 @@ class MyClientHandler : public ClientHandler{
       for (int i = 0; i < sizeof(buffer); i++) {
         buffer[i] = '\0'; // todo flush?
       }
+
       if (!strcmp(line.c_str(), "end\r\n")) {
- //       server_side::GlobalShouldStop = true;
         break;
       }
 
       lines.push_back(line);
       matrixString += line;
     }
+
     //create matrix
     Matrix* matrix = new Matrix(lines);
     string ans;
