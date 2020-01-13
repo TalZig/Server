@@ -10,6 +10,7 @@ class State {
   T* state;
   State<T> *prev;
   bool isDiscovered;
+  double costOfTrack;
   State() {}
 //  State<T>(T state, double value) : state(state), value(value) {
 //    this->isDiscovered = false;
@@ -19,6 +20,7 @@ class State {
     this->state = state1;
     this->isDiscovered = false;
     this->prev = nullptr;
+    costOfTrack = 0;
   }
 
   void SetPrev(State<T> *prev) {

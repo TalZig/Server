@@ -19,7 +19,7 @@ namespace boot {
     Main() {}
     int main1(int argc, char** argv) {
       CacheManager<string, string>* cm = new FileCacheManager();
-      Solver<Matrix, string>* solver = new SearchSolver(new DFS<Point>());
+      Solver<Matrix, string>* solver = new SearchSolver(new BestFirstSearch<Point>());
       MyClientHandler *c = new MyClientHandler(cm, solver);
       MySerialServer<Matrix,string> s;
       s.open(atoi(argv[1]), c);
