@@ -10,7 +10,7 @@
 #include "set"
 template<typename T>
 class BestFirstSearch : public iSearcher<T> {
-  priority_queue<State<T> *> openQue;
+  priority_queue<State<T> *, vector<State<T> *>, compareStateAStar<T>> openQue;
   set<State<T> *> closedSet;
   set<State<T> *> openSet;
   vector<State<T> *> listOfSuccessors;
@@ -27,7 +27,7 @@ class BestFirstSearch : public iSearcher<T> {
     return (closedSet.find(state) != closedSet.end());
   }
   bool isInOpenSet(State<T> *state) {
-    return (openSet.find(state) != openSet.end());
+    return (openSet.count(state));
   }
   State<T> *popOpenList() {
     State<T> *tempState = openQue.top();
@@ -53,32 +53,37 @@ class BestFirstSearch : public iSearcher<T> {
   }
  public:
   State<T> *search(Searchable<T> *search_able) override {
-    pushToOpenQue(search_able->getInitialState());
+    //pushToOpenQue(search_able->getInitialState());
     addToOpenList(search_able->getInitialState());
     State<T> *currentState;
+    search_able->getInitialState()->isDiscovered = true;
+    search_able->getInitialState()->costOfTrack = 0;
     while (openQue.size() > 0) {
       this->numberOfNodesEvaluated++;
-      currentState = openQue.top();
-      openQue.pop();
+      currentState = popOpenList();
+      currentState->isDiscovered = true;
       this->addToClosedSet(currentState);
       if (currentState->equals(*(search_able->getGoalState()))) {
         break;
       }
       listOfSuccessors = search_able->getSuccessors(currentState);
       for (int i = 0; i < listOfSuccessors.size(); i++) {
-        if (!this->isInClosedSet(listOfSuccessors[i]) && !this->isInOpenSet(listOfSuccessors[i])) {
+        if (listOfSuccessors[i]->isDiscovered == false && !this->isInOpenSet(listOfSuccessors[i])) {
           (listOfSuccessors[i])->prev = currentState;
+          (listOfSuccessors[i])->costOfTrack = currentState->costOfTrack +
+              listOfSuccessors[i]->state->value;
           pushToOpenQue(listOfSuccessors[i]);
         } else {
-          if (!this->isInOpenSet((listOfSuccessors[i])))
-            pushToOpenQue(listOfSuccessors[i]);
-          else {
+          int tentative_g_score = currentState->costOfTrack + listOfSuccessors[i]->state->getValue();
+          if (tentative_g_score < (listOfSuccessors[i])->costOfTrack) {
             (listOfSuccessors[i])->costOfTrack = currentState->costOfTrack +
                 listOfSuccessors[i]->state->value;
             (listOfSuccessors[i])->prev = currentState;
-            //(listOfSuccessors[i])->state->value += currentState->state->value;
-            updateOpenQue(listOfSuccessors[i]);
+            if (!openSet.count(listOfSuccessors[i]))
+              pushToOpenQue(listOfSuccessors[i]);
           }
+          //(listOfSuccessors[i])->state->value += currentState->state->value;
+          //updateOpenQue(listOfSuccessors[i]);
         }
       }
     }

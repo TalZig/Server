@@ -4,6 +4,7 @@
 
 #ifndef MILESTONE2__STATE_H_
 #define MILESTONE2__STATE_H_
+#include "limits"
 template<typename T>
 class State {
  public:
@@ -20,7 +21,7 @@ class State {
     this->state = state1;
     this->isDiscovered = false;
     this->prev = nullptr;
-    costOfTrack = 0;
+    costOfTrack = std::numeric_limits<double>::infinity();
   }
 
   void SetPrev(State<T> *prev) {
@@ -29,6 +30,21 @@ class State {
 
   bool equals(State<T> state1) {
     return (state1.state == this->state);
+  }
+};
+template<typename T>
+class compareStateAStar{
+ public:
+  bool operator()(State<T>* state1, State<T>* state2){
+    return state1->costOfTrack > state2->costOfTrack;
+  }
+};
+template<typename T>
+
+class compareStateBestFirsSearch{
+ public:
+  bool operator()(State<T>* state1, State<T>* state2){
+    return state1->state->value > state2->state->value;
   }
 };
 

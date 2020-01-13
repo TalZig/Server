@@ -12,14 +12,14 @@
 #include "BFS.h"
 #include "DFS.h"
 #include "SearchSolver.h"
-
+#include "AStar.h"
 namespace boot {
   class Main {
    public:
     Main() {}
     int main1(int argc, char** argv) {
       CacheManager<string, string>* cm = new FileCacheManager();
-      Solver<Matrix, string>* solver = new SearchSolver(new BFS<Point>());
+      Solver<Matrix, string>* solver = new SearchSolver(new AStar<Point>());
       MyClientHandler *c = new MyClientHandler(cm, solver);
       MySerialServer<Matrix,string> s;
       s.open(atoi(argv[1]), c);
