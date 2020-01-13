@@ -18,6 +18,7 @@ class DFS : public iSearcher<T>{
     vector<State<T>*> neighbours;
     //insert ot stack, dont insert to list because it will be removed immediatley
     stack.push(n);
+    n->isDiscovered = true;
     while (!stack.empty()) {
       this->numberOfNodesEvaluated++;
       n = stack.top();

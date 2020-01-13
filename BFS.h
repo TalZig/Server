@@ -24,6 +24,7 @@ class BFS : public iSearcher<T> {
     vector<State<T>*> neighbours;
     //insert ot queue, dont insert to list because it will be removed immediatley
     queue.push(n);
+    n->isDiscovered = true;
     while (!queue.empty()) {
       this->numberOfNodesEvaluated++;
       n = queue.front();
