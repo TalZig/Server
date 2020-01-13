@@ -8,6 +8,7 @@
 #include "CacheManager.h"
 #include <list>
 #include "unordered_map"
+#include "hash_fun.h"
 using namespace std;
 //template<typename Problem, typename Solution>
 class FileCacheManager : public CacheManager<string, string> {
@@ -19,6 +20,7 @@ class FileCacheManager : public CacheManager<string, string> {
 
  private:
   unordered_map<string, string> map;
+  hash<string> hashFunc;
   //typename list<node *>::iterator it;
   //list<node *> lst;
   //int size;
@@ -85,8 +87,8 @@ class FileCacheManager : public CacheManager<string, string> {
 
   string get(string str) {
     string val;
-    string fileName = to_string(std::hash<std::string>{}(str));    //check if this key is in the cache
-    if (map.count(str) > 0) {
+    string fileName = to_string(hashFunc(str));    //check if this key is in the cache
+    if (map.count(fileName) > 0) {
       //it = map[str];
       //lruAlgo(fileName, (*it)->val);
       //return (*lst.begin())->val;
@@ -95,32 +97,33 @@ class FileCacheManager : public CacheManager<string, string> {
       val = ReadFromFile(map[str]);
       //lruAlgo(str, val);
 
-    }
-    else return nullptr;
+    } else return nullptr;
   }
 
 //func that writing to file
-  void WriteToFile(string str1, string val1) {
+  void WriteToFile(string str1, string ans) {
 
     fstream file;
-    string fileName = to_string(std::hash<std::string>{}(str1));
+    string fileName = to_string(hashFunc(str1));
     //file.open(fileName, ios::out | ios::binary);
     ofstream file1(fileName);
     if (!file) {
       throw "problem with file";
     }
     /*file.write((char *) &val1, sizeof(val1));*/
-    file1 << val1;
+    file1 << ans;
     file1.close();
+    map[str1] = fileName;
   }
 
 //func that reading from file
   string ReadFromFile(string str1) {
     ifstream file;
-    string fileName = to_string(std::hash<std::string>{}(str1));
-    file.open(fileName);
+    string fileName = to_string(hashFunc(str1));
+    file.open(map[str1]);
     string line;
-    getline(file,line);
+    char buffer[5000];
+    getline(file, line);
     return line;
 /*    string val1;
     fstream file;
@@ -144,9 +147,9 @@ class FileCacheManager : public CacheManager<string, string> {
   }*/
  public:
 
-  bool isCacheHaveSol(string problemThatWeWantToCheck)
-  override {
-    return false;
+  bool isCacheHaveSol(string problemThatWeWantToCheck) override {
+    string fileName = to_string(hashFunc(problemThatWeWantToCheck));
+    return (map.count(problemThatWeWantToCheck) > 0);
   }
 };
 

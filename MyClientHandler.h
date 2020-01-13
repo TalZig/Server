@@ -52,6 +52,7 @@ class MyClientHandler : public ClientHandler{
 
     send(socket, ans.c_str(), ans.size(), 0);
     close(socket);
+    ans = "";
   }
 
   virtual ~MyClientHandler() {

@@ -8,7 +8,7 @@
 #include "stack"
 template <typename T>
 class DFS : public iSearcher<T>{
-  State<T> search(Searchable<T>* search_able) {
+  State<T>* search(Searchable<T>* search_able) {
     this->numberOfNodesEvaluated = 0;
     stack<State<T>*> stack;
 
@@ -22,7 +22,7 @@ class DFS : public iSearcher<T>{
       this->numberOfNodesEvaluated++;
       n = stack.top();
       stack.pop();
-      if (n->equals(goal)) {
+      if (n->equals(*goal)) {
         // todo traceback course
       }
 
@@ -35,7 +35,7 @@ class DFS : public iSearcher<T>{
         }
       }
     }
-    return search_able->traceBack(search_able->getInitialState(), search_able->getGoalState());
+    //return search_able->traceBack(search_able->getInitialState(), search_able->getGoalState());
   }
 };
 

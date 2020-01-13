@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <iostream>
 #include "Searchable.h"
 #include "Point.h"
 using namespace std;

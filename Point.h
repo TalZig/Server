@@ -8,8 +8,8 @@
 class Point {
   int x;
   int y;
-  double value;
  public:
+  double value;
   Point(int x, int y, double value);
   int getX();
   int getY();
