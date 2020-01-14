@@ -32,7 +32,6 @@ class BFS : public iSearcher<T> {
 
       if (n->equals(*goal)) {
         break;
-        // todo traceback course
       }
 
       neighbours = search_able->getSuccessors(n);
@@ -44,7 +43,6 @@ class BFS : public iSearcher<T> {
         }
       }
     }
- // todo   return search_able.traceBack(search_able.getInitialState(), search_able.getGoalState());
   }
 };
 
