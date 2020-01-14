@@ -10,6 +10,7 @@ class Point {
   int y;
  public:
   double value;
+  bool blocked;
   Point(int x, int y, double value);
   int getX();
   int getY();

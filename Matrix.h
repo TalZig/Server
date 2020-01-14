@@ -76,16 +76,17 @@ class Matrix : public Searchable<Point> {
     int x = s->state->getX();
     int y = s->state->getY();
 
-    if (x + 1 < this->mat.size()) {
+    // also check if blocked
+    if (x + 1 < this->mat.size() && !mat[x+1][y]->state->blocked) {
       successors.push_back(mat[x + 1][y]);
     }
-    if (x - 1 >= 0) {
+    if (x - 1 >= 0 && !mat[x-1][y]->state->blocked) {
       successors.push_back(this->mat[x - 1][y]);
     }
-    if (y + 1 < this->mat.size()) {
+    if (y + 1 < this->mat.size() && !mat[x][y+1]->state->blocked) {
       successors.push_back(mat[x][y + 1]);
     }
-    if (y - 1 >= 0) {
+    if (y - 1 >= 0 && !mat[x][y-1]->state->blocked) {
       successors.push_back(mat[x][y - 1]);
     }
     return successors;

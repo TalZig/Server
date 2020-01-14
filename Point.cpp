@@ -15,6 +15,8 @@ bool Point::operator==(Point p2) {
 Point::Point(int x, int y, double value) {
   this->y = y;
   this->x = x;
+  if (value == -1)
+    this->blocked = true;
   this->value =value;
 }
 void Point::setX(int x) {
