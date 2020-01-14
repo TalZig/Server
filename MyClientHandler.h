@@ -25,18 +25,23 @@ class MyClientHandler : public ClientHandler{
     vector<string> lines;
     string matrixString = "";
     char buffer[2900];
+
     while (!server_side::GlobalShouldStop) {
-      read(socket, buffer, 1024);
+      read(socket, buffer, 10000);
       string line(buffer);
+
+      lines = buffToLines(buffer, strlen(buffer));
+
       for (int i = 0; i < sizeof(buffer); i++) {
         buffer[i] = '\0'; // todo flush?
       }
 
-      if (!strcmp(line.c_str(), "end\r\n")) {
-        break;
-      }
+//      if (!strcmp(line.c_str(), "end\r\n")) {
+//        break;
+//      }
+//
+//      lines.push_back(line);
 
-      lines.push_back(line);
       matrixString += line;
     }
 
@@ -54,6 +59,27 @@ class MyClientHandler : public ClientHandler{
     send(socket, ans.c_str(), ans.size(), 0);
     close(socket);
     ans = "";
+  }
+
+  vector<string> buffToLines(char* buff, int size) {
+    vector<string> lines;
+    string line = "";
+    int i = 0;
+
+    while (i<size) {
+      while (buff[i] != '\r') {
+        line += buff[i];
+        i++;
+      }
+      i+=2;
+      line += '\n';
+      if (!strcmp(line.c_str(), "end\n")) {
+        break;
+      }
+      lines.push_back(line);
+      line = "";
+    }
+    return lines;
   }
 
   virtual ~MyClientHandler() {

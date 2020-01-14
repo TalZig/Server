@@ -9,6 +9,5 @@ int main(int argc, char** argv) {
   Solver<Matrix,string> *solver = new SearchSolver(new BFS<Point>());
   MyClientHandler *c = new MyClientHandler(cm, solver);
   MySerialServer<Matrix,string> s;
-  //s.open(atoi(argv[1]), c);
-  s.open(5220, c);
+  s.open(atoi(argv[1]), c);
 }
