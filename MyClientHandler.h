@@ -24,9 +24,9 @@ class MyClientHandler : public ClientHandler{
   void handleClient(int socket) {
     vector<string> lines;
     string matrixString = "";
-    char buffer[1024];
+    char buffer[10000];
     while (!server_side::GlobalShouldStop) {
-      read(socket, buffer, 1024);
+      read(socket, buffer, 10000);
       cout << buffer <<endl;
       string line(buffer);
       matrixString += line;
@@ -46,9 +46,10 @@ class MyClientHandler : public ClientHandler{
 
 
     }
+    cout<<matrixString<<endl;
     //split matrixstring to lines
-    matrixString = matrixString.substr(matrixString.size()-4,3);
-    auto find = matrixString.find('\n');
+    matrixString = matrixString.substr(0,matrixString.size()-4);
+    auto find = matrixString.find_first_of('\n');
     while (find != string::npos) {
       string line = matrixString.substr(0,find);
       matrixString = matrixString.substr(find + 1,matrixString.size() - (find+1));

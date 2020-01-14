@@ -14,12 +14,12 @@
 using namespace std;
 namespace server_side {
 static bool GlobalShouldStop = false;
-static vector<thread*> threads;
+static vector<thread *> threads;
 
-template<typename Problem,typename Solution>
+template<typename Problem, typename Solution>
 class Server {
  public:
-  virtual void open(int port, ClientHandler* c) = 0;
+  virtual void open(int port, ClientHandler *c) = 0;
   virtual void stop() = 0;
 };
 
