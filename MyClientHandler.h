@@ -37,7 +37,7 @@ class MyClientHandler : public ClientHandler{
         buffer[i] = '\0'; // todo flush?
       }
 
-      string temp = matrixString.substr(matrixString.size()-3,3);
+      string temp = matrixString.substr(matrixString.size()-4,3);
       if (!strcmp(temp.c_str(), "end")) {
         break;
       }
@@ -46,7 +46,16 @@ class MyClientHandler : public ClientHandler{
 
 
     }
-    //spli
+    //split matrixstring to lines
+    matrixString = matrixString.substr(matrixString.size()-4,3);
+    auto find = matrixString.find('\n');
+    while (find != string::npos) {
+      string line = matrixString.substr(0,find);
+      matrixString = matrixString.substr(find + 1,matrixString.size() - (find+1));
+      lines.push_back(line);
+      find = matrixString.find('\n');
+    }
+
 
     //create matrix
     Matrix* matrix = new Matrix(lines);
