@@ -43,7 +43,7 @@ class AStar : public iSearcher<T> {
       }
       neighbours = search_able->getSuccessors(current);
       for (int i = 0; i < neighbours.size(); i++) {
-        int tentative_g_score = current->costOfTrack + neighbours[i]->state->getValue();
+        int tentative_g_score = current->costOfTrack + 1;
         if ((!openSet.count(neighbours[i]) || tentative_g_score < (neighbours[i])->costOfTrack) &&
             !closedSet.count(neighbours[i])) {
           neighbours[i]->prev = current;
