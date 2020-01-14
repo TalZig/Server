@@ -8,15 +8,16 @@
 #include "server_side.h"
 #include <string.h>
 #include "vector"
-struct dataForClient{
+/*struct dataForClient{
   ClientHandler* client;
   int socket;
-};
+};*/
 template<typename Problem, typename Solution>
-void playThread(dataForClient data) {
-  data.client->handleClient(data.socket);
+void playThread(ClientHandler* client, int socket) {
+  client->handleClient(socket);
 }
-void start(int port, ClientHandler *c) {
+template<typename Problem, typename Solution>
+void startParallel(int port, ClientHandler *c) {
   int s = socket(AF_INET, SOCK_STREAM, 0);
   struct sockaddr_in serv;
   serv.sin_addr.s_addr = INADDR_ANY;
@@ -56,10 +57,10 @@ void start(int port, ClientHandler *c) {
       //thread thr1;
       //thr1(playThread, new_sock, client_handler);
       //thr1.join();
-      dataForClient data;
+/*      dataForClient data;
       data.client = client_handler;
-      data.socket = new_sock;
-      server_side::threads[server_side::threads.size() - 1] = thread(playThread, data);
+      data.socket = new_sock;*/
+      server_side::threads[server_side::threads.size() - 1] = new thread(playThread<Problem,Solution>, client_handler,new_sock);
       //server_side::threads[server_side::threads.size() - 1]->detach();
     } catch (...) {
       cout << "connection with client stopped" << endl;
@@ -79,14 +80,14 @@ class MyParallelServer : server_side::Server<Problem, Solution> {
  public:
   void open(int port, ClientHandler *c) override {
     server_side::GlobalShouldStop = false;
-    thread thr(start < Problem, Solution > , port, c);
+    thread thr(startParallel<Problem,Solution> , port, c);
     thr.join();
   }
   void stop() override {
     server_side::GlobalShouldStop = true;
-    if (this->thr1.joinable()) {
+/*    if (this->thr1.joinable()) {
       this->thr1.join();
-    }
+    }*/
   }
 };
 

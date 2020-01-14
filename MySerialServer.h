@@ -6,10 +6,9 @@
 #define MILESTONE2__MYSERIALSERVER_H_
 #include <thread>
 #include "server_side.h"
-#include <string.h>
-
+#include <cstring>
 template<typename Problem, typename Solution>
-void start(int port, ClientHandler *c) {
+void startSerial(int port, ClientHandler *c) {
   int s = socket(AF_INET, SOCK_STREAM, 0);
   struct sockaddr_in serv;
   serv.sin_addr.s_addr = INADDR_ANY;
@@ -64,7 +63,7 @@ class MySerialServer : server_side::Server<Problem, Solution> {
  public:
   void open(int port, ClientHandler *c) override {
     server_side::GlobalShouldStop = false;
-    thread thr(start<Problem, Solution>, port, c);
+    thread thr(startSerial<Problem, Solution>, port, c);
     thr.join();
   }
   void stop() override {

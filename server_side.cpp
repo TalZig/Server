@@ -3,3 +3,7 @@
 //
 
 #include "server_side.h"
+struct dataForClient{
+  ClientHandler* client;
+  int socket;
+};
