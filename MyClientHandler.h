@@ -27,7 +27,7 @@ class MyClientHandler : public ClientHandler{
     char buffer[10000];
     while (!server_side::GlobalShouldStop) {
       read(socket, buffer, 10000);
-      cout << buffer <<endl;
+      //cout << buffer <<endl;
       string line(buffer);
       matrixString += line;
 
@@ -46,7 +46,7 @@ class MyClientHandler : public ClientHandler{
 
 
     }
-    cout<<matrixString<<endl;
+    //cout<<matrixString<<endl;
     //split matrixstring to lines
     matrixString = matrixString.substr(0,matrixString.size()-4);
     auto find = matrixString.find_first_of('\n');
