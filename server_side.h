@@ -8,10 +8,13 @@
 #include <iostream>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <thread>
 #include "ClientHandler.h"
+#include "vector"
 using namespace std;
 namespace server_side {
 static bool GlobalShouldStop = false;
+static vector<thread*> threads;
 
 template<typename Problem,typename Solution>
 class Server {
