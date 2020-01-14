@@ -12,6 +12,7 @@ class State {
   State<T> *prev;
   bool isDiscovered;
   double costOfTrack;
+  double fCost;
   State() {}
 //  State<T>(T state, double value) : state(state), value(value) {
 //    this->isDiscovered = false;
@@ -22,6 +23,7 @@ class State {
     this->isDiscovered = false;
     this->prev = nullptr;
     costOfTrack = std::numeric_limits<double>::infinity();
+    fCost = std::numeric_limits<double>::infinity();
   }
 
   void SetPrev(State<T> *prev) {
@@ -36,7 +38,7 @@ template<typename T>
 class compareStateAStar{
  public:
   bool operator()(State<T>* state1, State<T>* state2){
-    return state1->costOfTrack > state2->costOfTrack;
+    return state1->fCost > state2->fCost;
   }
 };
 template<typename T>
@@ -44,7 +46,7 @@ template<typename T>
 class compareStateBestFirsSearch{
  public:
   bool operator()(State<T>* state1, State<T>* state2){
-    return state1->state->value > state2->state->value;
+    return state1->costOfTrack > state2->costOfTrack;
   }
 };
 

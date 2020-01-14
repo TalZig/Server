@@ -8,9 +8,10 @@
 #include "queue"
 #include "stack"
 #include "set"
+#include "ios"
 template<typename T>
 class BestFirstSearch : public iSearcher<T> {
-  priority_queue<State<T> *, vector<State<T> *>, compareStateAStar<T>> openQue;
+  priority_queue<State<T> *, vector<State<T> *>, compareStateBestFirsSearch<T>> openQue;
   set<State<T> *> closedSet;
   set<State<T> *> openSet;
   vector<State<T> *> listOfSuccessors;
@@ -87,6 +88,7 @@ class BestFirstSearch : public iSearcher<T> {
         }
       }
     }
+    int x;
   }
 };
 

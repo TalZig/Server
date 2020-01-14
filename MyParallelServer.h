@@ -13,7 +13,7 @@
   int socket;
 };*/
 template<typename Problem, typename Solution>
-void playThread(ClientHandler* client, int socket) {
+void playThread(ClientHandler *client, int socket) {
   client->handleClient(socket);
 }
 template<typename Problem, typename Solution>
@@ -53,15 +53,9 @@ void startParallel(int port, ClientHandler *c) {
       }
       server_side::threads.push_back(new thread);
       ClientHandler *client_handler = c;
-      /*server_side::threads[server_side::threads.size() - 1] = */
-      //thread thr1;
-      //thr1(playThread, new_sock, client_handler);
-      //thr1.join();
-/*      dataForClient data;
-      data.client = client_handler;
-      data.socket = new_sock;*/
-      server_side::threads[server_side::threads.size() - 1] = new thread(playThread<Problem,Solution>, client_handler,new_sock);
-      //server_side::threads[server_side::threads.size() - 1]->detach();
+      *client_handler = *c;
+      server_side::threads[server_side::threads.size() - 1] =
+          new thread(playThread<Problem, Solution>, client_handler, new_sock);
     } catch (...) {
       cout << "connection with client stopped" << endl;
     }
@@ -80,7 +74,7 @@ class MyParallelServer : server_side::Server<Problem, Solution> {
  public:
   void open(int port, ClientHandler *c) override {
     server_side::GlobalShouldStop = false;
-    thread thr(startParallel<Problem,Solution> , port, c);
+    thread thr(startParallel<Problem, Solution>, port, c);
     thr.join();
   }
   void stop() override {
