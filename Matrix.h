@@ -17,6 +17,8 @@ class Matrix : public Searchable<Point> {
   State<Point> *initialState;
   State<Point> *goalState;
   vector<vector<State<Point> *>> mat;
+  int rows;
+  int columns;
  public:
   Matrix(vector<string> lines) {
     // save last 2 lines in order to create
@@ -25,11 +27,15 @@ class Matrix : public Searchable<Point> {
     string initLine = lines.back();
     lines.pop_back();
 
+    rows = lines.size();
+    vector<double> check = createValuesVector(lines[0]);
+    columns = check.size();
+
     //create vector of vector
-    for (int i = 0; i < lines.size(); ++i) {
+    for (int i = 0; i < rows; ++i) {
       vector<State<Point> *> line;
       vector<double> values = createValuesVector(lines[i]);
-      for (int j = 0; j < values.size(); ++j) {
+      for (int j = 0; j < columns; ++j) {
         Point *p = new Point(i, j, values[j]);
         line.push_back(new State<Point>(p));
       }
@@ -113,17 +119,18 @@ class Matrix : public Searchable<Point> {
     return values;
   }
 
-  string traceBack(State<Point> *goal) override {
+  string traceBack() override {
     string ans = "";
     double sum = 0;
 
-    State<Point> *curr = goal;
+    State<Point> *curr = this->goalState;
     vector<State<Point>*> path;
 
-    while(curr != NULL) {
+    while(curr != initialState) {
       path.push_back(curr);
       curr = curr->prev;
     }
+    path.push_back(curr);
 
     State<Point>* next;
     State<Point>* temp;
@@ -132,7 +139,7 @@ class Matrix : public Searchable<Point> {
     path.pop_back();
     next = path.back();
     path.pop_back();
-    while (!path.empty()) {
+    while (!next->equals(*goalState)) {
       sum += next->state->value;
       if (curr->state->getY() < next->state->getY()) {
         ans += "Right(" + to_string((int)sum) + "), ";

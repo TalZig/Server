@@ -24,7 +24,7 @@ class DFS : public iSearcher<T>{
       n = stack.top();
       stack.pop();
       if (n->equals(*goal)) {
-        // todo traceback course
+        break;
       }
 
       neighbours = search_able->getSuccessors(n);
