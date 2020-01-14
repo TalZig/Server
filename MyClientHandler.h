@@ -34,7 +34,7 @@ class MyClientHandler : public ClientHandler{
 //      lines = buffToLines(buffer, strlen(buffer));
 
       for (int i = 0; i < sizeof(buffer); i++) {
-        buffer[i] = '\0'; // todo flush?
+        buffer[i] = '\0';
       }
 
       string temp = matrixString.substr(matrixString.size()-4,3);
@@ -70,6 +70,8 @@ class MyClientHandler : public ClientHandler{
     }
 
     send(socket, ans.c_str(), ans.size(), 0);
+    cout<<ans <<endl;
+    cout<<ans.c_str()<<endl;
     close(socket);
     ans = "";
   }
