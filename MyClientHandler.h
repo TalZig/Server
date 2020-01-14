@@ -24,21 +24,21 @@ class MyClientHandler : public ClientHandler{
   void handleClient(int socket) {
     vector<string> lines;
     string matrixString = "";
-    char buffer[100000000];
+    char buffer[1024];
     while (!server_side::GlobalShouldStop) {
-      read(socket, buffer, 100000000);
+      read(socket, buffer, 1024);
+      cout << buffer <<endl;
       string line(buffer);
+      matrixString += line;
 
-      lines = buffToLines(buffer, strlen(buffer));
+//      lines = buffToLines(buffer, strlen(buffer));
 
       for (int i = 0; i < sizeof(buffer); i++) {
         buffer[i] = '\0'; // todo flush?
       }
 
-      matrixString += line;
-
-      if (!strcmp(lines[lines.size()-1].c_str(), "end\n")) {
-        lines.pop_back();
+      string temp = matrixString.substr(matrixString.size()-3,3);
+      if (!strcmp(temp.c_str(), "end")) {
         break;
       }
 //
@@ -46,6 +46,7 @@ class MyClientHandler : public ClientHandler{
 
 
     }
+    //spli
 
     //create matrix
     Matrix* matrix = new Matrix(lines);
