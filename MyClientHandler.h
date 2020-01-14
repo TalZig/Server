@@ -24,10 +24,9 @@ class MyClientHandler : public ClientHandler{
   void handleClient(int socket) {
     vector<string> lines;
     string matrixString = "";
-    char buffer[2900];
-
+    char buffer[100000000];
     while (!server_side::GlobalShouldStop) {
-      read(socket, buffer, 10000);
+      read(socket, buffer, 100000000);
       string line(buffer);
 
       lines = buffToLines(buffer, strlen(buffer));
@@ -36,13 +35,16 @@ class MyClientHandler : public ClientHandler{
         buffer[i] = '\0'; // todo flush?
       }
 
-//      if (!strcmp(line.c_str(), "end\r\n")) {
-//        break;
-//      }
+      matrixString += line;
+
+      if (!strcmp(lines[lines.size()-1].c_str(), "end\n")) {
+        lines.pop_back();
+        break;
+      }
 //
 //      lines.push_back(line);
 
-      matrixString += line;
+
     }
 
     //create matrix
@@ -67,15 +69,15 @@ class MyClientHandler : public ClientHandler{
     int i = 0;
 
     while (i<size) {
-      while (buff[i] != '\r') {
+      while (buff[i] != '\r' && buff[i] != '\n') {
         line += buff[i];
         i++;
       }
-      i+=2;
+      if (i>0 && buff[i-1] == '\r')
+        i+=2;
+      else
+        i++;
       line += '\n';
-      if (!strcmp(line.c_str(), "end\n")) {
-        break;
-      }
       lines.push_back(line);
       line = "";
     }
