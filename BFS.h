@@ -44,7 +44,6 @@ class BFS : public iSearcher<T> {
         }
       }
     }
-    cout << this->numberOfNodesEvaluated<<endl;
   }
 };
 

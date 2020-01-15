@@ -27,12 +27,9 @@ class MyClientHandler : public ClientHandler{
     char buffer[10000];
     while (!server_side::GlobalShouldStop) {
       read(socket, buffer, 10000);
-      //cout << buffer <<endl;
       string line(buffer);
       matrixString += line;
       stringToCheck += line;
-
-//      lines = buffToLines(buffer, strlen(buffer));
 
       for (int i = 0; i < sizeof(buffer); i++) {
         buffer[i] = '\0';

@@ -20,7 +20,7 @@ void startSerial(int port, ClientHandler *c) {
   timeout.tv_sec = 50;
   timeout.tv_usec = 0;
 
-  bind(s, (sockaddr *) &serv, sizeof(serv));
+  bind(s, (sockaddr * ) & serv, sizeof(serv));
   setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
 
   while (!server_side::GlobalShouldStop) {
@@ -30,16 +30,13 @@ void startSerial(int port, ClientHandler *c) {
       struct sockaddr_in client;
       socklen_t clilen = sizeof(client);
       new_sock = accept(s, (struct sockaddr *) &client, &clilen);
-      cout << "Server connected" << endl;
-      if (*isTimeOut) {
-        if (new_sock < 0) {
-          if (errno == EWOULDBLOCK) {
-            cout << "timeout of Serial!" << endl;
-            break;
-          } else {
-            perror("other error");
-            break;
-          }
+      if (*isTimeOut || new_sock < 0) {
+        if (errno == EWOULDBLOCK) {
+          cout << "timeout of Serial!" << endl;
+          break;
+        } else {
+          perror("other error");
+          break;
         }
       }
       c->handleClient(new_sock);

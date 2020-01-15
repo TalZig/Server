@@ -8,8 +8,8 @@
 #include "server_side.h"
 #include <string.h>
 #include "vector"
-struct dataForClient{
-  ClientHandler* client;
+struct dataForClient {
+  ClientHandler *client;
   int socket;
 };
 /*template<typename Problem, typename Solution>
@@ -17,7 +17,7 @@ void playThread(ClientHandler *client, int socket) {
   client->handleClient(socket);
 }*/
 template<typename Problem, typename Solution>
-void playThread(dataForClient* data){
+void playThread(dataForClient *data) {
   data->client->handleClient(data->socket);
 }
 template<typename Problem, typename Solution>
@@ -33,7 +33,7 @@ void startParallel(int port, ClientHandler *c) {
   timeout.tv_sec = 50;
   timeout.tv_usec = 0;
 
-  bind(s, (sockaddr *) &serv, sizeof(serv));
+  bind(s, (sockaddr * ) & serv, sizeof(serv));
   setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
 
   while (!server_side::GlobalShouldStop) {
@@ -42,31 +42,28 @@ void startParallel(int port, ClientHandler *c) {
       listen(s, 20000);
       struct sockaddr_in client;
       socklen_t clilen = sizeof(client);
-      if(server_side::countOfServers < 10) {
+      if (server_side::countOfServers < 10) {
         new_sock = accept(s, (struct sockaddr *) &client, &clilen);
         server_side::countOfServers++;
-      } else{
+      } else {
         continue;
       }
-      cout << "Server connected" << endl;
-      if (*isTimeOut) {
-        if (new_sock < 0) {
-          if (errno == EWOULDBLOCK) {
-            cout << "timeout of Serial!" << endl;
-            break;
-          } else {
-            perror("other error");
-            break;
-          }
+      if (*isTimeOut || new_sock < 0) {
+        if (errno == EWOULDBLOCK) {
+          cout << "timeout of Serial!" << endl;
+          break;
+        } else {
+          perror("other error");
+          break;
         }
       }
       server_side::threads.push_back(new thread);
       //ClientHandler *client_handler = c->clone();
       ClientHandler *client_handler = c;
-      struct dataForClient* data = new struct dataForClient();
+      struct dataForClient *data = new struct dataForClient();
       data->client = client_handler;
       data->socket = new_sock;
-      server_side::threads[server_side::threads.size()-1] = new thread(playThread<Problem,Solution> ,data);
+      server_side::threads[server_side::threads.size() - 1] = new thread(playThread<Problem, Solution>, data);
       //*client_handler = *c;
 /*      server_side::threads[server_side::threads.size() - 1] =
           new thread(playThread<Problem, Solution>, client_handler, new_sock);*/

@@ -36,8 +36,6 @@ class DFS : public iSearcher<T>{
         }
       }
     }
-    cout<<this->numberOfNodesEvaluated<<endl;
-    //return search_able->traceBack(search_able->getInitialState(), search_able->getGoalState());
   }
 };
 
