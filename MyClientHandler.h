@@ -20,7 +20,6 @@ class MyClientHandler : public ClientHandler{
     this->cm = cm1;
     this->solver = solver1;
   }
-
   void handleClient(int socket) {
     vector<string> lines;
     string matrixString = "";
