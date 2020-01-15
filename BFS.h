@@ -9,6 +9,7 @@
 #include "list"
 #include "queue"
 #include "set"
+#include <iostream>
 
 template <typename T>
 class BFS : public iSearcher<T> {
@@ -43,6 +44,7 @@ class BFS : public iSearcher<T> {
         }
       }
     }
+    cout << this->numberOfNodesEvaluated<<endl;
   }
 };
 
