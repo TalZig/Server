@@ -78,6 +78,7 @@ class MyClientHandler : public ClientHandler{
     }
     close(socket);
     ans = "";
+    server_side::countOfServers--;
   }
 
   virtual ~MyClientHandler() {

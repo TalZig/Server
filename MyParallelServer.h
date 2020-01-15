@@ -42,7 +42,12 @@ void startParallel(int port, ClientHandler *c) {
       listen(s, 20000);
       struct sockaddr_in client;
       socklen_t clilen = sizeof(client);
-      new_sock = accept(s, (struct sockaddr *) &client, &clilen);
+      if(server_side::countOfServers < 10) {
+        new_sock = accept(s, (struct sockaddr *) &client, &clilen);
+        server_side::countOfServers++;
+      } else{
+        continue;
+      }
       cout << "Server connected" << endl;
       if (*isTimeOut) {
         if (new_sock < 0) {

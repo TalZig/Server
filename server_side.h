@@ -15,6 +15,7 @@ using namespace std;
 namespace server_side {
 static bool GlobalShouldStop = false;
 static vector<thread *> threads;
+static int countOfServers = 0;
 
 template<typename Problem, typename Solution>
 class Server {
