@@ -46,7 +46,8 @@ class AStar : public iSearcher<T> {
       for (int i = 0; i < neighbours.size(); i++) {
         int tentative_g_score = current->costOfTrack;
         int tentetive_h_score = hCost(current);
-        if ((!openSet.count(neighbours[i]) || tentative_g_score + neighbours[i]->state->getValue() < neighbours[i]->costOfTrack) &&
+        if ((!openSet.count(neighbours[i])
+            || tentative_g_score + neighbours[i]->state->getValue() < neighbours[i]->costOfTrack) &&
             !closedSet.count(neighbours[i])) {
           neighbours[i]->prev = current;
           neighbours[i]->costOfTrack = current->costOfTrack + neighbours[i]->state->getValue();
@@ -73,14 +74,15 @@ class AStar : public iSearcher<T> {
     y = abs(state1->state->getY() - startingState->state->getY());
     return (int) (x + y);
   }
-  void deleteStls(){
-    State<T>* temp;
-    while(!this->open.empty()){
+  void deleteStls() {
+    State<T> *temp;
+    while (!this->open.empty()) {
       temp = open.top();
       open.pop();
       openSet.erase(temp);
       delete temp;
     }
+  }
 };
 
 #endif //MILESTONE2__ASTAR_H_
