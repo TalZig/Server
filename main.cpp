@@ -2,6 +2,7 @@
 #include "boot.h"
 #include "Point.h"
 #include "MyParallelServer.h"
+
 int main(int argc, char** argv) {
 //  boot::Main<Matrix, string, pair<int,int>> main1;
 //  main1.main1(argc,argv);
