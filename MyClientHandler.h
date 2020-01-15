@@ -40,15 +40,14 @@ class MyClientHandler : public ClientHandler{
 
       string temp = matrixString.substr(matrixString.size()-4,3);
       string temp2 = matrixString.substr(matrixString.size()-5,3);
-      if (!strcmp(temp.c_str(), "end") || !strcmp(temp2.c_str(), "end")) {
+      string temp3 = matrixString.substr(matrixString.size()-3,3);
+      if (!strcmp(temp.c_str(), "end") || !strcmp(temp2.c_str(), "end") || !strcmp(temp3.c_str(), "end")) {
+        if (!strcmp(temp3.c_str(), "end"))
+          matrixString+="\n";
         break;
       }
-//
-//      lines.push_back(line);
-
-
     }
-    //cout<<matrixString<<endl;
+
     matrixString = matrixString.substr(0,matrixString.size()-4);
     auto find = matrixString.find_first_of('\n');
     while (find != string::npos) {
