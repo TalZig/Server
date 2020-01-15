@@ -8,13 +8,17 @@
 #include "server_side.h"
 #include <string.h>
 #include "vector"
-/*struct dataForClient{
+struct dataForClient{
   ClientHandler* client;
   int socket;
-};*/
-template<typename Problem, typename Solution>
+};
+/*template<typename Problem, typename Solution>
 void playThread(ClientHandler *client, int socket) {
   client->handleClient(socket);
+}*/
+template<typename Problem, typename Solution>
+void playThread(dataForClient* data){
+  data->client->handleClient(data->socket);
 }
 template<typename Problem, typename Solution>
 void startParallel(int port, ClientHandler *c) {
@@ -52,10 +56,16 @@ void startParallel(int port, ClientHandler *c) {
         }
       }
       server_side::threads.push_back(new thread);
+      //ClientHandler *client_handler = c->clone();
       ClientHandler *client_handler = c;
-      *client_handler = *c;
-      server_side::threads[server_side::threads.size() - 1] =
-          new thread(playThread<Problem, Solution>, client_handler, new_sock);
+      struct dataForClient* data = new struct dataForClient();
+      data->client = client_handler;
+      data->socket = new_sock;
+      server_side::threads[server_side::threads.size()-1] = new thread(playThread<Problem,Solution> ,data);
+      //*client_handler = *c;
+/*      server_side::threads[server_side::threads.size() - 1] =
+          new thread(playThread<Problem, Solution>, client_handler, new_sock);*/
+      //delete client_handler;
     } catch (...) {
       cout << "connection with client stopped" << endl;
     }

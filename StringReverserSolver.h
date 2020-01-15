@@ -12,5 +12,8 @@ class StringReverserSolver : public Solver<string, string> {
  public:
   string solve(string problem) override;
 };
+/*Solver<string, string> *StringReverserSolver::clone() {
+  return nullptr;
+}*/
 
 #endif //MILESTONE2__STRINGREVERSERSOLVER_H_

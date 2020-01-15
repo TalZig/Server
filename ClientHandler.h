@@ -14,7 +14,7 @@ class ClientHandler {
 
  public:
   virtual void handleClient(int socket) = 0;
-  virtual ~ClientHandler(){}
+  virtual ~ClientHandler() {}
 };
 
 #endif //MILESTONE2__CLIENTHANDLER_H_
