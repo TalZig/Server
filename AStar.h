@@ -56,6 +56,7 @@ class AStar : public iSearcher<T> {
         }
       }
     }
+    deleteStls();
     cout << to_string(this->numberOfNodesEvaluated) << endl;
   }
   int hCost(State<T> *state1) {
@@ -72,6 +73,14 @@ class AStar : public iSearcher<T> {
     y = abs(state1->state->getY() - startingState->state->getY());
     return (int) (x + y);
   }
+  void deleteStls(){
+    State<T>* temp;
+    while(!this->open.empty()){
+      temp = open.top();
+      open.pop();
+      openSet.erase(temp);
+      delete temp;
+    }
 };
 
 #endif //MILESTONE2__ASTAR_H_

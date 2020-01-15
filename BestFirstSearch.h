@@ -90,6 +90,25 @@ class BestFirstSearch : public iSearcher<T> {
     }
     int x;
   }
+  void deleteStls() {
+    State<T> *temp;
+    while (!this->openQue.empty()) {
+      temp = openQue.top();
+      openQue.pop();
+      openSet.erase(temp);
+      delete temp;
+    }
+    while (!this->closedSet.empty()) {
+      temp = closedSet.front();
+      closedSet.erase(temp);
+      delete temp;
+    }
+    while (listOfSuccessors.size() > 0) {
+      temp = listOfSuccessors.front();
+      listOfSuccessors.erase(temp);
+      delete temp;
+    }
+  };
 };
 
 #endif //MILESTONE2__BESTFIRSTSEARCH_H_
