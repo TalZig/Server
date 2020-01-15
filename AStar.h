@@ -9,6 +9,7 @@
 #include "set"
 #include <cmath>
 #include <queue>
+
 template<typename T>
 class AStar : public iSearcher<T> {
   priority_queue<State<T> *, vector<State<T> *>, compareStateAStar<T>> open;

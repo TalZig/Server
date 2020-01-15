@@ -9,6 +9,7 @@
 #include "stack"
 #include "set"
 #include "ios"
+
 template<typename T>
 class BestFirstSearch : public iSearcher<T> {
   priority_queue<State<T> *, vector<State<T> *>, compareStateBestFirsSearch<T>> openQue;
