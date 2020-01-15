@@ -83,13 +83,13 @@ class Matrix : public Searchable<Point> {
     int y = s->state->getY();
 
     // also check if blocked
-    if (x + 1 < this->mat.size() && !mat[x+1][y]->state->blocked) {
+    if (x + 1 < this->rows && !mat[x+1][y]->state->blocked) {
       successors.push_back(mat[x + 1][y]);
     }
     if (x - 1 >= 0 && !mat[x-1][y]->state->blocked) {
       successors.push_back(this->mat[x - 1][y]);
     }
-    if (y + 1 < this->mat.size() && !mat[x][y+1]->state->blocked) {
+    if (y + 1 < this->columns && !mat[x][y+1]->state->blocked) {
       successors.push_back(mat[x][y + 1]);
     }
     if (y - 1 >= 0 && !mat[x][y-1]->state->blocked) {

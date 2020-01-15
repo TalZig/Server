@@ -12,14 +12,15 @@
 #include "Matrix.h"
 
 //template <typename Problem,typename Solution>
-class MyClientHandler : public ClientHandler {
-  Solver<Matrix, string> *solver;
-  CacheManager<string, string> *cm;
+class MyClientHandler : public ClientHandler{
+  Solver<Matrix, string>* solver;
+  CacheManager<string, string>* cm;
  public:
-  MyClientHandler(CacheManager<string, string> *cm1, Solver<Matrix, string> *solver1) {
+  MyClientHandler(CacheManager<string, string> *cm1, Solver<Matrix, string>* solver1 ) {
     this->cm = cm1;
     this->solver = solver1;
   }
+
   void handleClient(int socket) {
     vector<string> lines;
     string matrixString = "";
@@ -35,11 +36,12 @@ class MyClientHandler : public ClientHandler {
 //      lines = buffToLines(buffer, strlen(buffer));
 
       for (int i = 0; i < sizeof(buffer); i++) {
-        buffer[i] = '\0'; // todo flush?
+        buffer[i] = '\0';
       }
 
-      string temp = matrixString.substr(matrixString.size() - 4, 3);
-      if (!strcmp(temp.c_str(), "end")) {
+      string temp = matrixString.substr(matrixString.size()-4,3);
+      string temp2 = matrixString.substr(matrixString.size()-5,3);
+      if (!strcmp(temp.c_str(), "end") || !strcmp(temp2.c_str(), "end")) {
         break;
       }
 //
@@ -48,8 +50,7 @@ class MyClientHandler : public ClientHandler {
 
     }
     //cout<<matrixString<<endl;
-    //split matrixstring to lines
-    matrixString = matrixString.substr(0, matrixString.size() - 4);
+    matrixString = matrixString.substr(0,matrixString.size()-4);
     auto find = matrixString.find_first_of('\n');
     while (find != string::npos) {
       string line = matrixString.substr(0, find);
@@ -66,35 +67,19 @@ class MyClientHandler : public ClientHandler {
     if (this->cm->isCacheHaveSol(stringToCheck)) {
       ans = this->cm->get(stringToCheck);
     } else {
-      counter++;
       ans = this->solver->solve(*matrix);
       this->cm->insert(stringToCheck, ans);
     }
 
-    send(socket, ans.c_str(), ans.size(), 0);
+    // make sure every byte was sent to client
+    auto size = ans.size();
+    auto t = send(socket, ans.c_str(), ans.size(), 0);
+    while(t != size) {
+      size -= t;
+      t = send(socket, ans.c_str(), ans.size(), 0);
+    }
     close(socket);
     ans = "";
-  }
-
-  vector<string> buffToLines(char *buff, int size) {
-    vector<string> lines;
-    string line = "";
-    int i = 0;
-
-    while (i < size) {
-      while (buff[i] != '\r' && buff[i] != '\n') {
-        line += buff[i];
-        i++;
-      }
-      if (i > 0 && buff[i - 1] == '\r')
-        i += 2;
-      else
-        i++;
-      line += '\n';
-      lines.push_back(line);
-      line = "";
-    }
-    return lines;
   }
 
   virtual ~MyClientHandler() {
