@@ -45,6 +45,7 @@ class AStar : public iSearcher<T> {
       if (current->equals(*goal)) {
         break;
       }
+
       neighbours = search_able->getSuccessors(current);
       for (int i = 0; i < neighbours.size(); i++) {
         int tentative_g_score = current->costOfTrack;
