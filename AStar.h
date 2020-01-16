@@ -36,7 +36,7 @@ class AStar : public iSearcher<T> {
     insertToOpenSet(startingState, &open, &openSet);
     vector<State<T> *> neighbours;
     startingState->costOfTrack = 0;
-    startingState->fCost = hCost(startingState, goal);
+    startingState->fCost = hCost(startingState, goal) + startingState->state->getValue();
     while (!open.empty()) {
       this->numberOfNodesEvaluated++;
       current = open.top();
