@@ -35,7 +35,7 @@ class AStar : public iSearcher<T> {
     set<State<T> *> closedSet;
     insertToOpenSet(startingState, &open, &openSet);
     vector<State<T> *> neighbours;
-    startingState->costOfTrack = 0;
+    startingState->costOfTrack = startingState->state->getValue();
     startingState->fCost = hCost(startingState, goal) + startingState->state->getValue();
     while (!open.empty()) {
       this->numberOfNodesEvaluated++;
@@ -49,7 +49,7 @@ class AStar : public iSearcher<T> {
       neighbours = search_able->getSuccessors(current);
       for (int i = 0; i < neighbours.size(); i++) {
         int tentative_g_score = current->costOfTrack;
-        int tentetive_h_score = hCost(current, goal);
+        int tentative_h_score = hCost(current, goal);
         if ((!openSet.count(neighbours[i])
             || tentative_g_score + neighbours[i]->state->getValue() < neighbours[i]->costOfTrack) &&
             !closedSet.count(neighbours[i])) {
@@ -67,7 +67,7 @@ class AStar : public iSearcher<T> {
     int y;
     x = abs(state1->state->getX() - goal->state->getX());
     y = abs(state1->state->getY() - goal->state->getY());
-    return (int) (x + y);
+    return (x + y);
   }
   int gCost(State<T> *state1, State<T> *startingState) {
     int x;
