@@ -28,6 +28,7 @@ class AStar : public iSearcher<T> {
     set<State<T> *> openSet;
     State<T> *goal;
     State<T> *startingState;
+    int numberOfNodesEvaluated = 0;
 
     goal = search_able->getGoalState();
     State<T> *current;
@@ -38,7 +39,7 @@ class AStar : public iSearcher<T> {
     startingState->costOfTrack = startingState->state->getValue();
     startingState->fCost = hCost(startingState, goal) + startingState->state->getValue();
     while (!open.empty()) {
-      this->numberOfNodesEvaluated++;
+      numberOfNodesEvaluated++;
       current = open.top();
       closedSet.insert(current);
       removeFromOpen(&open, &openSet);
@@ -61,6 +62,7 @@ class AStar : public iSearcher<T> {
         }
       }
     }
+    //cout<<numberOfNodesEvaluated<<endl;
   }
   int hCost(State<T> *state1, State<T> *goal) {
     int x;

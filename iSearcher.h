@@ -7,11 +7,8 @@
 #include "Searchable.h"
 template <typename T>
 class iSearcher {
- protected:
-  int numberOfNodesEvaluated;
  public:
   virtual State<T>* search(Searchable<T>* search_able) = 0;
-
 };
 
 #endif //MILESTONE2__ISEARCHER_H_

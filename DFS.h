@@ -9,7 +9,7 @@
 template <typename T>
 class DFS : public iSearcher<T>{
   State<T>* search(Searchable<T>* search_able) {
-    this->numberOfNodesEvaluated = 0;
+    int numberOfNodesEvaluated = 0;
     stack<State<T>*> stack;
 
     State<T>* n = search_able->getInitialState();
@@ -20,7 +20,7 @@ class DFS : public iSearcher<T>{
     stack.push(n);
     n->isDiscovered = true;
     while (!stack.empty()) {
-      this->numberOfNodesEvaluated++;
+      numberOfNodesEvaluated++;
       n = stack.top();
       stack.pop();
       if (n->equals(*goal)) {
@@ -36,6 +36,7 @@ class DFS : public iSearcher<T>{
         }
       }
     }
+    //cout<<numberOfNodesEvaluated<<endl;
   }
 };
 

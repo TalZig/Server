@@ -15,7 +15,7 @@ template <typename T>
 class BFS : public iSearcher<T> {
 
   State<T>* search(Searchable<T>* search_able) {
-    this->numberOfNodesEvaluated = 0;
+    int numberOfNodesEvaluated = 0;
     queue<State<T>*> queue;
 
     State<T>* n;
@@ -27,7 +27,7 @@ class BFS : public iSearcher<T> {
     queue.push(n);
     n->isDiscovered = true;
     while (!queue.empty()) {
-      this->numberOfNodesEvaluated++;
+      numberOfNodesEvaluated++;
       n = queue.front();
       queue.pop();
 
@@ -44,6 +44,7 @@ class BFS : public iSearcher<T> {
         }
       }
     }
+    //cout<<numberOfNodesEvaluated<<endl;
   }
 };
 
