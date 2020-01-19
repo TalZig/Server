@@ -45,6 +45,11 @@ void startParallel(int port, ClientHandler *c) {
       new_sock = accept(s, (struct sockaddr *) &client, &clilen);
 
       if (*isTimeOut || new_sock < 0) {
+ /*       while (!server_side::threads.empty()) {
+          //if (server_side::threads.front()->joinable())
+            //server_side::threads.front()->join();
+          //delete server_side::threads.front();
+        }*/
         if (errno == EWOULDBLOCK) {
           cout << "timeout of Serial!" << endl;
           break;
@@ -54,24 +59,14 @@ void startParallel(int port, ClientHandler *c) {
         }
       }
       server_side::threads.push_back(new thread);
-      //ClientHandler *client_handler = c->clone();
       ClientHandler *client_handler = c;
       struct dataForClient *data = new struct dataForClient();
       data->client = client_handler;
       data->socket = new_sock;
       server_side::threads[server_side::threads.size() - 1] = new thread(playThread<Problem, Solution>, data);
-      //*client_handler = *c;
-/*      server_side::threads[server_side::threads.size() - 1] =
-          new thread(playThread<Problem, Solution>, client_handler, new_sock);*/
-      //delete client_handler;
     } catch (...) {
       cout << "connection with client stopped" << endl;
     }
-  }
-  while (!server_side::threads.empty()) {
-    if (server_side::threads.front()->joinable())
-      server_side::threads.front()->join();
-    delete server_side::threads.front();
   }
   delete isTimeOut;
 }
@@ -87,9 +82,6 @@ class MyParallelServer : server_side::Server<Problem, Solution> {
   }
   void stop() override {
     server_side::GlobalShouldStop = true;
-/*    if (this->thr1.joinable()) {
-      this->thr1.join();
-    }*/
   }
 };
 
