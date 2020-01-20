@@ -31,8 +31,9 @@ class FileCacheManager : public CacheManager<string, string> {
     string val;
     char *val1 = nullptr;
     string fileName = to_string(hashFunc(str));    //check if this key is in the cache
-    if (map.count(str) > 0) {
-      val = ReadFromFile(map[str]);
+    //if (map.count(str) > 0) {
+    if(isCacheHaveSol(str)){
+      val = ReadFromFile(fileName);
       val += '\n';
       return val;
     } else return nullptr;
@@ -40,7 +41,6 @@ class FileCacheManager : public CacheManager<string, string> {
 
 //func that writing to file
   void WriteToFile(string str1, string ans) {
-
     fstream file;
     string fileName = to_string(hashFunc(str1));
     ofstream file1(fileName);
@@ -65,8 +65,14 @@ class FileCacheManager : public CacheManager<string, string> {
 
   bool isCacheHaveSol(string problemThatWeWantToCheck) override {
     string fileName = to_string(hashFunc(problemThatWeWantToCheck));
-    return (map.count(problemThatWeWantToCheck) > 0);
+    ifstream file(fileName);
+    if(file.is_open()) {
+      file.close();
+      return true;
+    }
+    return false;
   }
 };
+//};
 
 #endif //MILESTONE2__FILECACHEMANAGER_H_
