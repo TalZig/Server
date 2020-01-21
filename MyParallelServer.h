@@ -30,7 +30,7 @@ void startParallel(int port, ClientHandler *c) {
   bool *isTimeOut = new bool;
   *isTimeOut = false;
   timeval timeout;
-  timeout.tv_sec = 50;
+  timeout.tv_sec = 120;
   timeout.tv_usec = 0;
 
   bind(s, (sockaddr *) &serv, sizeof(serv));
@@ -45,11 +45,6 @@ void startParallel(int port, ClientHandler *c) {
       new_sock = accept(s, (struct sockaddr *) &client, &clilen);
 
       if (*isTimeOut || new_sock < 0) {
- /*       while (!server_side::threads.empty()) {
-          //if (server_side::threads.front()->joinable())
-            //server_side::threads.front()->join();
-          //delete server_side::threads.front();
-        }*/
         if (errno == EWOULDBLOCK) {
           cout << "timeout of Serial!" << endl;
           break;

@@ -17,7 +17,7 @@ void startSerial(int port, ClientHandler *c) {
   bool *isTimeOut = new bool;
   *isTimeOut = false;
   timeval timeout;
-  timeout.tv_sec = 50;
+  timeout.tv_sec = 120;
   timeout.tv_usec = 0;
 
   bind(s, (sockaddr * ) & serv, sizeof(serv));
