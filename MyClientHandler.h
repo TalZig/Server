@@ -62,7 +62,6 @@ class MyClientHandler : public ClientHandler{
     //check if we have a solution to the problem in cache
     if (this->cm->isCacheHaveSol(stringToCheck)) {
       ans = this->cm->get(stringToCheck);
-      //cout<<"check"<<endl;
     } else {
       ans = this->solver->solve(*matrix);
       this->cm->insert(stringToCheck, ans);
