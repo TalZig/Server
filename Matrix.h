@@ -125,7 +125,9 @@ class Matrix : public Searchable<Point> {
 
     State<Point> *curr = this->goalState;
     vector<State<Point>*> path;
-
+    if(this->goalState->prev == nullptr && !this->goalState->equals(*(this->initialState))){
+      return "there is no path!";
+    }
     while(curr != initialState) {
       path.push_back(curr);
       curr = curr->prev;
