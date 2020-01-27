@@ -17,12 +17,15 @@ namespace boot {
 class Main {
  public:
   Main() {}
-  int main1() {
-    CacheManager<string, string>* cm = new FileCacheManager();
-    Solver<Matrix, string>* solver = new SearchSolver(new AStar<Point>());
+  int main1(int argc, char **argv) {
+    CacheManager<string, string> *cm = new FileCacheManager();
+    Solver<Matrix, string> *solver = new SearchSolver(new AStar<Point>());
     MyClientHandler *c = new MyClientHandler(cm, solver);
-    MySerialServer<Matrix,string> s;
-    s.open(5600, c);
+    MySerialServer<Matrix, string> s;
+    if (argc > 0)
+      s.open(atoi(argv[1]), c);
+    else
+      return -1;
   }
 };
 };
