@@ -22,10 +22,10 @@ class Main {
     Solver<Matrix, string> *solver = new SearchSolver(new AStar<Point>());
     MyClientHandler *c = new MyClientHandler(cm, solver);
     MySerialServer<Matrix, string> s;
-    if (argc > 0)
+    if (argc > 1)
       s.open(atoi(argv[1]), c);
     else
-      return -1;
+      s.open(5600, c);
   }
 };
 };
